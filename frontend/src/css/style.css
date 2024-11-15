@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Set global styles for the entire app */
+body {
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensure consistent sizing */
+  background-color: #f9f9f9; /* Optional: light background for e-commerce */
+  color: #333; /* Modern dark text color */
+}
+
+/* Lazada-like left and right margins for all pages */
+.container {
+  max-width: 1200px; /* Lazada's typical container size */
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto;
+  padding-left: 15px; /* Prevent content from touching edges */
+  padding-right: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 10px; /* Smaller padding for tablets */
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 5px; /* Minimal padding for mobile devices */
+    padding-right: 5px;
+  }
+}
+
+/* Other global text styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600; /* Make headings bold */
+  margin: 0;
+}
+
+p, a, span, button {
+  font-weight: 400; /* Regular font weight for body text */
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #de4e00; /* Optional: modern blue for links */
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Optional Styling for Buttons */
+button {
+  background-color: #de4e00; /* Modern blue */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #de4e00;
+}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
+
 // Make sure the 'root' div exists in your index.html
 const root = ReactDOM.createRoot(document.getElementById('root')); 
 
