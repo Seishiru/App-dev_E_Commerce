@@ -1,37 +1,26 @@
-const mysql = require('mysql2');  // Import mysql2 package
-
-// Create a MySQL connection pool
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'app_e_commerce_db',  // Replace with the name of the database you created
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
-
-
-// Test the connection
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL');
-  connection.release();  // Release the connection back to the pool
-});
-
-// Your other server setup code (Express, routes, etc.)
 const express = require('express');
+const cors = require('cors'); // Import CORS
+const dotenv = require('dotenv');
+const authRoutes = require('./controllers/authRoutes'); // Ensure the correct path
+
+dotenv.config(); // Load environment variables
+
 const app = express();
-const port = 5000;
 
-// Example route
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
+// Use CORS middleware to allow requests from specific origins
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from your frontend
+  methods: ['GET', 'POST'], // Allow specific HTTP methods
+  credentials: true, // Optional: Allow cookies to be sent with requests
+}));
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.use(express.json()); // To parse JSON in requests
+
+// Use the auth routes
+app.use('/api/auth', authRoutes);
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
