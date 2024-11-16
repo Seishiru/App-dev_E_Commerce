@@ -1,0 +1,246 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal Content */
+.modal {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    max-width: 90%;
+    text-align: left;
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Input Fields */
+.modal form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    display: block;
+}
+
+/* Password Input Wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Password Input */
+.password-input {
+    padding-right: 40px; /* Add space for the eye icon */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    display: block;
+}
+
+/* Eye Icon */
+.eye-icon {
+    position: absolute;
+    right: 10px; /* Space from the right edge */
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the icon */
+    font-size: 18px;
+    cursor: pointer;
+    color: #888;
+}
+
+/* Eye Icon when password is visible */
+.eye-icon.visible {
+    color: #de4e00; /* Change color when password is visible */
+}
+
+
+
+/* Forgot Password */
+.forgot-password {
+    font-size: 14px;
+    color: #de4e00;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+.modal form button {
+    padding: 12px;
+    background-color: #de4e00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.modal form button:hover {
+    background-color: #c34400;
+}
+
+/* Sign-Up Link */
+.signup-link {
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+}
+
+.signup-link span {
+    color: #de4e00;
+    cursor: pointer;
+}
+
+.signup-link span:hover {
+    text-decoration: underline;
+}
+
+/* Close Button */
+.close-x-button {
+    position: absolute;
+    top: 10px; /* Leave some space from the top */
+    right: 10px; /* Leave some space from the right */
+    background: none; /* No background fill */
+    border: none; /* Remove border */
+    color: gray; /* Gray color for the "X" */
+    font-size: 24px; /* Adjust size */
+    font-weight: bold;
+    cursor: pointer;
+    outline: none; /* Remove focus outline */
+    transition: color 0.3s ease; /* Add smooth hover effect */
+}
+
+.close-x-button:hover {
+    color: #de4e00; /* Change to highlight color on hover */
+}
+
+/* Modal Animations */
+.modal-slide-up {
+    animation-name: slideUp;
+    animation-timing-function: ease-out;
+}
+
+.modal-slide-down {
+    animation-name: slideDown;
+    animation-timing-function: ease-in;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+}
+
+/* General Modal Styles */
+.modal h2 {
+    margin-bottom: 15px;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal form label {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Responsive Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+/* Code Input Fields */
+.code-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.code-box {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+/* Resend Link */
+.resend-link {
+    text-align: center;
+    font-size: 14px;
+    color: #de4e00;
+    cursor: pointer;
+}
+
+.resend-link span:hover {
+    text-decoration: underline;
+}
+
+.login-link span {
+    color: #de4e00; /* Highlight color */
+    cursor: pointer; /* Change the cursor to pointer */
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.login-link span:hover {
+    color: #ff6a00; /* Change color on hover */
+}
