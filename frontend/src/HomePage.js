@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './HomePage.css';
 import Logo from './assets/Logo.png'; // Import the logo
-
+import sale_image from './assets/sale_image.png';
 const HomePage = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
@@ -18,10 +18,6 @@ const HomePage = () => {
     return (
         <div>
             {/* Header Bar */}
-            <div className="header-bar">
-                <button className="header-button" onClick={() => setShowLogin(true)}>Login</button>
-                <button className="header-button" onClick={() => setShowSignup(true)}>Signup</button>
-            </div>
 
             {/* Container2: Logo, Site Name, Search Bar, Cart */}
             <div className="container2">
@@ -37,13 +33,51 @@ const HomePage = () => {
                 </div>
 
                 {/* Cart Icon */}
-                <div className="cart">
-                    <i className="fas fa-shopping-cart"></i>
+                <div className="header-right">
+                    <button className="header-button" onClick={() => setShowLogin(true)}>Login</button>
+                    <button className="header-button" onClick={() => setShowSignup(true)}>Signup</button>
+                    <i className="fas fa-shopping-cart cart-icon"></i>
+                </div>
+            </div>
+            {/* Main Image Section */}
+            <div className="main-image-section">
+                <div className="margin"></div>
+                <div className="image-container">
+                    <div className="large-image">
+                        <img src={sale_image} alt="Shopee Logo" className="sale_image" />
+                    </div>
+                </div>
+                <div className="margin"></div>
+            </div>
+
+            {/* Suggested Products Section */}
+            <div className="suggested-products">
+                <h2>Suggested products for you</h2>
+                <div className="product-grid">
+                    <div className="product-card">
+                        <div className="product-image">image</div>
+                        <div className="product-description">Product 1 description</div>
+                    </div>
+                    <div className="product-card">
+                        <div className="product-image">image</div>
+                        <div className="product-description">Product 2 description</div>
+                    </div>
+                    <div className="product-card">
+                        <div className="product-image">image</div>
+                        <div className="product-description">Product 3 description</div>
+                    </div>
+                    <div className="product-card">
+                        <div className="product-image">image</div>
+                        <div className="product-description">Product 4 description</div>
+                    </div>
+                    <div className="product-card">
+                        <div className="product-image">image</div>
+                        <div className="product-description">Product 5 description</div>
+                    </div>
                 </div>
             </div>
 
-            <h1>Shopease</h1>
-            <button>Go to Product Page</button>
+
 
             {/* Login Modal */}
             {showLogin && (
