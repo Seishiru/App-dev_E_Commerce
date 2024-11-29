@@ -16,17 +16,18 @@ router.post('/send-email-code', async (req, res) => {
 
   try {
     // Save the verification code to the database (optional)
-    await pool.promise().query('INSERT INTO email_verification (email, code) VALUES (?, ?)', [email, verificationCode]);
+    const [rows] = await pool.promise().query('INSERT INTO email_verification (email, code) VALUES (?, ?)', [email, verificationCode]);
 
-    // Send the email
+    // Nodemailer transport configuration
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // Adjust as necessary
+      service: 'gmail', // Adjust this if you're using another service
       auth: {
-        user: process.env.EMAIL_USER, // Your email
+        user: process.env.EMAIL_USER, // Your email address (e.g., 'your-email@gmail.com')
         pass: process.env.EMAIL_PASS, // Your email password or app-specific password
       },
     });
 
+    // Mail options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
@@ -34,10 +35,14 @@ router.post('/send-email-code', async (req, res) => {
       text: `Your verification code is: ${verificationCode}`,
     };
 
+    // Send email
     await transporter.sendMail(mailOptions);
+
+    console.log(`Verification email sent to ${email}`);
 
     res.status(200).json({ message: 'Verification code sent' });
   } catch (err) {
+    console.error('Error sending email:', err);
     res.status(500).json({ error: 'Failed to send verification code' });
   }
 });
