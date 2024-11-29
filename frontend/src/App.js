@@ -8,6 +8,7 @@ import UserProfile from "./pages/UserProfile";
 import Header from "./components/Header";
 import SubHeader from "./components/SubHeader";
 import "./css/style.css";
+import AuthModal from "./components/AuthModal";
 
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
