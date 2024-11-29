@@ -38,9 +38,7 @@ const App = () => {
       {/* Topmost Header: Login and Signup */}
       <Header setShowLogin={openLogin} setShowSignup={openSignup} />
 
-      {/* Subheader: Logo, Search Bar, Cart */}
-      <SubHeader />
-
+  
       {/* Login and Signup Modals */}
       {showLogin && <Login closeModal={closeModal} setShowSignup={openSignup} />}
       {showSignup && <Signup closeModal={closeModal} setShowLogin={openLogin} />}
