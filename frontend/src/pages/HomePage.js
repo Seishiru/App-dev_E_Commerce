@@ -1,9 +1,9 @@
 // src/HomePage.js
 import React, { useState } from 'react';
-import './css/HomePage.css';
-import Header from './components/Header';
-import SubHeader from './components/SubHeader';
-import AuthModal from './components/AuthModal';
+import '../css/HomePage.css';
+import Header from '../components/Header';
+import SubHeader from '../components/SubHeader';
+import AuthModal from '../components/AuthModal';
 
 const HomePage = () => {
   const [showLogin, setShowLogin] = useState(false);

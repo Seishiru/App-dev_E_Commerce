@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '././HomePage';
-import ProductPage from './ProductPage';
+import HomePage from './pages/HomePage';
+import ProductPage from './pages/ProductPage';
 import './css/style.css';
 
 const App = () => {
