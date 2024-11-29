@@ -5,7 +5,6 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import UserProfile from "./pages/UserProfile";
 import Header from "./components/Header";
-import SubHeader from "./components/SubHeader";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import "./css/style.css";
