@@ -1,17 +1,20 @@
-/* Container2: Header Styling */
-.header-container{
+/* Container: Header Styling */
+.header-container {
   display: flex;
   justify-content: space-between;
   padding: 10px 15px; /* Adjust for Lazada-like margins */
-  background-color: #fff; /* Optional white background */
+  background-color: #fff;
   border-bottom: 1px solid #ddd;
   width: 100%; /* Ensure the container fills the width */
+  box-sizing: border-box; /* Include padding in element's width calculation */
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-.header-left{
-display: flex;
-align-items: center;
-gap: 15px;
+/* Left section styling */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 /* Logo styling */
@@ -24,7 +27,7 @@ gap: 15px;
 .site-name {
   font-size: 24px;
   font-weight: 600;
-  color: #333; /* Modern dark text */
+  color: #333;
   margin: 0;
 }
 
@@ -71,8 +74,7 @@ gap: 15px;
 }
 
 /* Header Buttons - Login and Signup buttons aligned at the far right */
-
-.header-right{
+.header-right {
   display: flex;
   align-items: center;
 }
@@ -90,6 +92,7 @@ gap: 15px;
 .header-button:hover {
   background-color: #de4e00;
 }
+
 
 
 /* Modal Content */
