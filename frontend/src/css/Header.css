@@ -2,7 +2,7 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  padding: 10px 15px; /* Adjust for Lazada-like margins */
+  padding: 15px 25px; /* Adjust for Lazada-like margins */
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   width: 100%; /* Ensure the container fills the width */
@@ -11,11 +11,9 @@
   margin-bottom: 20px;
 }
 
-/* Left section styling */
-.header-left {
+.header-section{
   display: flex;
   align-items: center;
-  gap: 15px;
 }
 
 /* Logo styling */
@@ -36,12 +34,11 @@
 .search-bar {
   display: flex;
   align-items: center;
-  flex-grow: 1;
-  max-width: 600px; /* Optional max width for search bar */
+  width: 100%;
 }
 
 .search-input {
-  flex-grow: 1;
+  flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px 0 0 4px;
@@ -72,12 +69,6 @@
   font-size: 25px;
   cursor: pointer;
   color: #de4e00;
-}
-
-/* Header Buttons - Login and Signup buttons aligned at the far right */
-.header-right {
-  display: flex;
-  align-items: center;
 }
 
 .header-button {
