@@ -1,0 +1,195 @@
+/* Container2: Header Styling */
+.header-container{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px; /* Adjust for Lazada-like margins */
+  background-color: #fff; /* Optional white background */
+  border-bottom: 1px solid #ddd;
+  width: 100%; /* Ensure the container fills the width */
+}
+
+.header-left{
+display: flex;
+align-items: center;
+gap: 15px;
+}
+
+/* Logo styling */
+.logo {
+  width: 50px; /* Logo size */
+  height: 50px;
+  object-fit: contain;
+}
+
+.site-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333; /* Modern dark text */
+  margin: 0;
+}
+
+/* Search Bar Styling */
+.search-bar {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 600px; /* Optional max width for search bar */
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+}
+
+.search-button {
+  background-color: #de4e00;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button i {
+  font-size: 18px;
+}
+
+.cart {
+  margin-left: 20px;
+}
+
+.cart-icon {
+  font-size: 25px;
+  cursor: pointer;
+  color: #de4e00;
+}
+
+/* Header Buttons - Login and Signup buttons aligned at the far right */
+
+.header-right{
+  display: flex;
+  align-items: center;
+}
+
+.header-button {
+  margin-left: 15px;
+  padding: 8px 12px;
+  background-color: #de4e00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.header-button:hover {
+  background-color: #de4e00;
+}
+
+
+/* Modal Content */
+.modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.modal-slide-up {
+  animation-name: slideUp;
+}
+
+.modal-slide-down {
+  animation-name: slideDown;
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+      transform: translateY(100%);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+  from {
+      transform: translateY(0);
+      opacity: 1;
+  }
+  to {
+      transform: translateY(100%);
+      opacity: 0;
+  }
+}
+
+/* Close Button */
+.close-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #c82333;
+}
+
+.modal h2 {
+  margin-bottom: 15px;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal form label {
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.modal form input {
+  margin-bottom: 15px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal form button {
+  padding: 10px;
+  background-color: #de4e00;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal form button:hover {
+  background-color: #de4e00;
+}
+
+/* Lazada-like margins for container */
+.container {
+  max-width: 1200px; /* Set a maximum width */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

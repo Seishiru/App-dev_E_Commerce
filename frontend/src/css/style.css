@@ -15,8 +15,7 @@ body {
   max-width: 1200px; /* Lazada's typical container size */
   margin-left: auto; /* Center horizontally */
   margin-right: auto;
-  padding-left: 15px; /* Prevent content from touching edges */
-  padding-right: 15px;
+  padding: 0;
 }
 
 /* Responsive adjustments */

@@ -1,10 +1,9 @@
-
 import '../css/HomePage.css';
 import sale_image from '../assets/sale_image.png';
 const HomePage = () => {
 
     return (
-        <div>
+        <div className="container">
             {/* Main Image Section */}
             <div className="main-image-section">
                 <div className="margin"></div>
