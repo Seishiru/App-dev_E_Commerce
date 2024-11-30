@@ -1,0 +1,23 @@
+
+.cart-columns{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.cart-columns > div {
+  flex: 1;
+}
+
+.cart-columns > div:nth-child(1),
+.cart-columns > div:nth-child(6) {
+  flex: 0.5;
+}
+
+.cart-columns > div:nth-child(2) {
+  flex: 3;
+}
+
+.cart-column-name{
+  display: inline;
+}

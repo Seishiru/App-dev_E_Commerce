@@ -8,6 +8,7 @@
   width: 100%; /* Ensure the container fills the width */
   box-sizing: border-box; /* Include padding in element's width calculation */
   overflow-x: hidden; /* Prevent horizontal overflow */
+  margin-bottom: 20px;
 }
 
 /* Left section styling */

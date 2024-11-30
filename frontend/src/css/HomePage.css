@@ -2,7 +2,7 @@
 .main-image-section {
     display: flex;
     justify-content: space-between;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 .sale_image {

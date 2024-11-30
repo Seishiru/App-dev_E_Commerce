@@ -67,3 +67,10 @@ button {
 button:hover {
   background-color: #de4e00;
 }
+
+/*Global Styles*/
+.section-container{
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
