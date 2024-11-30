@@ -27,22 +27,22 @@ const Signup = ({ closeModal, setShowLogin }) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     if (!email) {
       setErrorMessage('Email is required');
       setLoading(false);
       return;
     }
-
+  
     try {
       const response = await fetch('http://localhost:5000/api/auth/send-email-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code: verificationCode }),
+        body: JSON.stringify({ email }), // Remove the verificationCode here
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         console.log('Verification code sent to email');
         setStep(2);
@@ -57,31 +57,32 @@ const Signup = ({ closeModal, setShowLogin }) => {
       setLoading(false);
     }
   };
+  
 
   const handleVerification = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     if (!verificationCode) {
       setErrorMessage('Verification code is required');
       setLoading(false);
       return;
     }
-
+  
     try {
-      const requestBody = { email, verificationCode };
-      console.log('Request Body:', requestBody); // Log request body to check what is being sent
-
+      const requestBody = { email, code: verificationCode };
+      console.log('Request Body (Frontend):', requestBody); // Log to see what is being sent
+  
       const response = await fetch('http://localhost:5000/api/auth/verify-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
       });
-
+  
       const data = await response.json();
-      console.log('Response Data:', data); // Log the response to get more insights
-
+      console.log('Response Data (Frontend):', data); // Log the response to get more insights
+  
       if (response.ok) {
         console.log('Verification successful');
         closeModal(); // Close the modal after successful verification
@@ -97,6 +98,7 @@ const Signup = ({ closeModal, setShowLogin }) => {
       setLoading(false);
     }
   };
+   
 
   // Resend the verification code
   const handleResendCode = async () => {

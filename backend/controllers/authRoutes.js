@@ -1,17 +1,8 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 const Joi = require('joi');
-const rateLimit = require('express-rate-limit');
 const pool = require('../db'); // Database connection
 const router = express.Router();
-
-// Rate limiter
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 52,
-  message: 'Too many requests, please try again later.',
-});
 
 // Validation schemas
 const emailSchema = Joi.object({
@@ -24,7 +15,7 @@ const verifyCodeSchema = Joi.object({
 });
 
 // Endpoint to send email verification code
-router.post('/send-email-code', limiter, async (req, res) => {
+router.post('/send-email-code', async (req, res) => {
   const { email } = req.body;
 
   const { error } = emailSchema.validate({ email });
@@ -34,7 +25,6 @@ router.post('/send-email-code', limiter, async (req, res) => {
 
   // Generate a plain verification code (6-digit)
   const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit code
-  const hashedCode = crypto.createHash('sha256').update(verificationCode.toString()).digest('hex');
   const expiryTime = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
 
   try {
@@ -45,17 +35,17 @@ router.post('/send-email-code', limiter, async (req, res) => {
       // Update if record exists
       await pool.promise().query(
         'UPDATE email_verification SET code = ?, expiry_time = ? WHERE email = ?',
-        [hashedCode, expiryTime, email]
+        [verificationCode, expiryTime, email]
       );
     } else {
       // Insert if no record exists
       await pool.promise().query(
         'INSERT INTO email_verification (email, code, expiry_time) VALUES (?, ?, ?)',
-        [email, hashedCode, expiryTime]
+        [email, verificationCode, expiryTime]
       );
     }
 
-    // Send email with plain verification code (not hashed)
+    // Send email with plain verification code
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -71,7 +61,7 @@ router.post('/send-email-code', limiter, async (req, res) => {
       text: `Your verification code is: ${verificationCode}`, // Send the plain code
     });
 
-    console.log(`Verification email sent to ${email}`);
+    console.log(`Verification email sent to ${email} with code: ${verificationCode}`);
     res.status(200).json({ message: 'Verification code sent' });
   } catch (err) {
     console.error('Error:', err);
@@ -80,7 +70,7 @@ router.post('/send-email-code', limiter, async (req, res) => {
 });
 
 // Endpoint to verify the code
-router.post('/verify-code', limiter, async (req, res) => {
+router.post('/verify-code', async (req, res) => {
   const { email, code } = req.body;
 
   const { error } = verifyCodeSchema.validate({ email, code });
@@ -98,22 +88,23 @@ router.post('/verify-code', limiter, async (req, res) => {
       return res.status(404).json({ error: 'Email not found' });
     }
 
-    const { code: storedHashedCode, expiry_time } = result[0];
+    const { code: storedCode, expiry_time } = result[0];
+
+    // Debug: Log the expected code and the received code
+    console.log(`Expected code for ${email}: ${storedCode}`);
+    console.log(`Received code: ${code}`);
 
     // Check if the code is expired
     if (new Date(expiry_time) < new Date()) {
       return res.status(400).json({ error: 'Verification code has expired' });
     }
 
-    // Hash the provided code to compare
-    const providedHashedCode = crypto.createHash('sha256').update(code).digest('hex');
-
-    if (providedHashedCode !== storedHashedCode) {
+    // Compare the provided code with the stored plain code
+    if (parseInt(code) !== storedCode) {
       return res.status(400).json({ error: 'Invalid verification code' });
     }
 
     // If the code is valid, you can perform additional actions (e.g., activate the account)
-
     res.status(200).json({ message: 'Code verified successfully' });
   } catch (err) {
     console.error('Error:', err);

@@ -1,18 +1,17 @@
 Homepage_news
-
-series of images for the homepage
+-series of images for the homepage
 
 
 
 Products
-
-images and information of the product
-
+-images and information of the product
 
 
 
+PDFs
+-contains how to run SSH-TUNNELING
 
 
 Note:
 
-You can add more images if necessary
+You can add more images if necessary or files related to this project
