@@ -7,20 +7,22 @@ import Logo from "../assets/Logo.png"; // Import the logo
 const Header = ({ setShowLogin, setShowSignup }) => {
   return (
     <div className="header-container">
-      <div className="header-section">
-        <img src={Logo} alt="Shopee Logo" className="logo" />
-        <h1 className="site-name">Shopease</h1>
-      </div>
+      <Link to="/">
+        <div className="header-section">
+          <img src={Logo} alt="Shopee Logo" className="logo" />
+          <h1 className="site-name">Shopease</h1>
+        </div>
+      </Link>
 
       <div className="header-section">
         {/* Search Bar and Button */}
         <div className="search-bar">
           <div>
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search for products..."
-          />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search for products..."
+            />
           </div>
           <button className="search-button">
             <i className="fas fa-search"></i>

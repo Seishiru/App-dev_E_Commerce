@@ -38,11 +38,7 @@
 }
 
 .search-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-  font-size: 14px;
+  width: 500px;
 }
 
 .search-button {
