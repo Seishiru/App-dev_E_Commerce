@@ -14,6 +14,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600; /* Make headings bold */
   margin: 0;
+  font-weight: bold;
 }
 
 p, a, span, button {
@@ -24,10 +25,6 @@ p, a, span, button {
 a {
   text-decoration: none;
   color: #de4e00; /* Optional: modern blue for links */
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 /* Lazada-like left and right margins for all pages */
@@ -59,6 +56,11 @@ a:hover {
   margin-bottom: 20px;
 }
 
+.section-title{
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 button {
   background-color: rgb(222, 78, 0); /* Modern blue */
   color: #fff;
@@ -71,6 +73,13 @@ button {
 
 button:hover {
   background-color: #de4e00;
+}
+
+input{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
 }
 
 .custom-checkbox {

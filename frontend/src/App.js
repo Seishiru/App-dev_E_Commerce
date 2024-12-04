@@ -43,6 +43,7 @@ const App = () => {
       {showSignup && <Signup closeModal={closeModal} setShowLogin={openLogin} />}
 
       {/* Routes */}
+      <div className="container">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/product" element={<ProductPage />} />
@@ -53,6 +54,7 @@ const App = () => {
         <Route path="/login" element={<></>} />
         <Route path="/signup" element={<></>} />
       </Routes>
+      </div>
     </div>
   );
 };

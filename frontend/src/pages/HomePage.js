@@ -3,9 +3,9 @@ import sale_image from '../assets/sale_image.png';
 const HomePage = () => {
 
     return (
-        <div className="container">
+        <div>
             {/* Main Image Section */}
-            <div className="main-image-section">
+            <div className="section-container">
                 <div className="margin"></div>
                 <div className="image-container">
                     <div className="large-image">
@@ -16,8 +16,8 @@ const HomePage = () => {
             </div>
 
             {/* Suggested Products Section */}
-            <div className="suggested-products">
-                <h2>Suggested products for you</h2>
+            <div className="section-container suggested-products">
+                <h2 className='section-title'>Suggested products for you</h2>
                 <div className="product-grid">
                     <div className="product-card">
                         <div className="product-image">image</div>

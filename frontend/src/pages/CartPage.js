@@ -18,7 +18,7 @@ function CartPage() {
   };
 
   return (
-    <div className="container">
+    <div>
       <div className="section-container cart-columns">
         <div></div>
         <div>
