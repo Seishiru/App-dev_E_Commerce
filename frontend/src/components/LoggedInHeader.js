@@ -1,10 +1,10 @@
-// src/components/Header.js
+// src/components/LoggedInHeader.js
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import "../css/Header.css";
 import Logo from "../assets/Logo.png"; // Import the logo
 
-const Header = ({ setShowLogin, setShowSignup }) => {
+const LoggedInHeader = ({ user, handleLogout }) => {
   return (
     <div className="header-container">
       <Link to="/">
@@ -35,17 +35,15 @@ const Header = ({ setShowLogin, setShowSignup }) => {
         </div>
       </div>
 
-      {/* Header Buttons */}
+      {/* Header for Logged In Users */}
       <div className="header-section">
-        <button className="header-button" onClick={() => setShowLogin(true)}>
-          Login
-        </button>
-        <button className="header-button" onClick={() => setShowSignup(true)}>
-          Signup
+        <span>Hello, {user.name}</span> {/* Show user name */}
+        <button className="header-button" onClick={handleLogout}>
+          Logout
         </button>
       </div>
     </div>
   );
 };
 
-export default Header;
+export default LoggedInHeader;

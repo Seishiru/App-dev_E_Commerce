@@ -1,7 +1,9 @@
+// src/components/Login.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../css/AuthModal.css';
 
-const Login = ({ closeModal, setShowSignup }) => {
+const Login = ({ closeModal, setShowSignup, setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -14,42 +16,38 @@ const Login = ({ closeModal, setShowSignup }) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-  
+
     if (!email || !password) {
       setErrorMessage('Email and password are required');
       setLoading(false);
       return;
     }
-  
-    console.log('Login Request Body:', { email, password }); // Debugging log
-  
+
+    const loginData = { email, password };
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }), // Send email and password
-      });
-  
-      const data = await response.json();
-      console.log('Response Status:', response.status); // Log response status
-      console.log('Response Data:', data); // Log response data
-  
-      if (response.ok) {
-        console.log('Login successful', data.token);
-        closeModal();
+      console.log('Login Request Body:', loginData);
+
+      const response = await axios.post('http://localhost:5000/api/auth/login', loginData);
+
+      console.log('Response Status:', response.status);
+      console.log('Response Data:', response.data);
+
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        setUser({ name: 'User Name' });  // Set the logged-in user's name or other details
+        closeModal();  // Close the modal after successful login
         setEmail('');
         setPassword('');
       } else {
-        setErrorMessage(data.error || 'Login failed');
+        setErrorMessage('Login failed!');
       }
     } catch (err) {
       setErrorMessage('Error connecting to the server');
-      console.error('Fetch error:', err); // Log fetch error
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className="modal-overlay">
