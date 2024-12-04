@@ -8,29 +8,32 @@ const Login = ({ closeModal, setShowSignup }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+  const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     if (!email || !password) {
       setErrorMessage('Email and password are required');
       setLoading(false);
       return;
     }
-
+  
+    console.log('Login Request Body:', { email, password }); // Debugging log
+  
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Send email and password
       });
-
+  
       const data = await response.json();
+      console.log('Response Status:', response.status); // Log response status
+      console.log('Response Data:', data); // Log response data
+  
       if (response.ok) {
         console.log('Login successful', data.token);
         closeModal();
@@ -41,10 +44,12 @@ const Login = ({ closeModal, setShowSignup }) => {
       }
     } catch (err) {
       setErrorMessage('Error connecting to the server');
+      console.error('Fetch error:', err); // Log fetch error
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="modal-overlay">
