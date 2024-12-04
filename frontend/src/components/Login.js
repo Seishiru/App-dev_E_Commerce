@@ -34,13 +34,14 @@ const Login = ({ closeModal, setShowSignup, setUser }) => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        setUser({ name: 'User Name' });  // Set the logged-in user's name or other details
-        closeModal();  // Close the modal after successful login
+        setUser({ name: response.data.user.name }); // Use the actual name from the backend
+        closeModal();
         setEmail('');
         setPassword('');
       } else {
         setErrorMessage('Login failed!');
       }
+      
     } catch (err) {
       setErrorMessage('Error connecting to the server');
       console.error('Login error:', err);
