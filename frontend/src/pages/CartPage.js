@@ -1,19 +1,20 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "../css/CartPage.css";
 import empty from "../assets/empty_image.png";
 
 function CartPage() {
   const [quantity, setQuantity] = useState(1);
-  const price = 100
+  const price = 100;
 
   const handleIncrease = () => {
-    setQuantity(prevQuantity => prevQuantity + 1);
+    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   const handleDecrease = () => {
     if (quantity > 1) {
-      setQuantity(prevQuantity => prevQuantity - 1);
+      setQuantity((prevQuantity) => prevQuantity - 1);
     }
   };
 
@@ -51,7 +52,9 @@ function CartPage() {
             </div>
             <div>₱{price.toFixed(2)}</div>
             <div className="cart-quantity-container">
-              <button className="quantity-btn" onClick={() => handleDecrease()}>-</button>
+              <button className="quantity-btn" onClick={() => handleDecrease()}>
+                -
+              </button>
               <input
                 type="text"
                 className="quantity-input"
@@ -59,9 +62,11 @@ function CartPage() {
                 onChange={(e) => setQuantity(e.target.value)}
                 disabled
               />
-              <button className="quantity-btn" onClick={() => handleIncrease()}>+</button>
+              <button className="quantity-btn" onClick={() => handleIncrease()}>
+                +
+              </button>
             </div>
-            <div>₱{(quantity*price).toFixed(2)}</div>
+            <div>₱{(quantity * price).toFixed(2)}</div>
             <div className="icon-container">
               <i className="fa-solid fa-trash delete-icon"></i>
             </div>
@@ -70,7 +75,9 @@ function CartPage() {
       </div>
 
       <div className="checkout-container">
-        <button className="checkout-button">Checkout</button>
+        <Link to="/checkout">
+          <button className="checkout-button">Checkout</button>
+        </Link>
       </div>
     </div>
   );
