@@ -1,0 +1,12 @@
+.purchases-columns{
+  display: flex;
+  justify-content: space-between;
+}
+
+.purchases-columns > div {
+  flex: 1;
+}
+
+.purchases-column-name{
+  text-align: center;
+}

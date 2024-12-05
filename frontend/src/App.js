@@ -6,6 +6,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import UserProfile from "./pages/UserProfile";
 import CheckoutPage from "./pages/CheckoutPage";
+import PurchasesPage from "./pages/PurchasesPage";
 import LoggedOutHeader from "./components/LoggedOutHeader";
 import LoggedInHeader from "./components/LoggedInHeader";
 import Login from "./components/Login";
@@ -78,6 +79,7 @@ const App = () => {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/purchases" element={<PurchasesPage />} />
           <Route path="/login" element={<></>} />
           <Route path="/signup" element={<></>} />
         </Routes>
