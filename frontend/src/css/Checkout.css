@@ -1,0 +1,34 @@
+.address-container{
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.address-container > div{
+  flex: 1
+}
+
+
+
+.address-container > div:nth-child(2){
+  flex: 3
+}
+
+.receiver-name{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.address-contents{
+  padding: 0 30px;
+}
+
+.address-button{
+  text-align: left;
+}
+
+.address-button-container{
+  display: flex;
+  justify-content: right;
+  padding: 0 20px;
+}
