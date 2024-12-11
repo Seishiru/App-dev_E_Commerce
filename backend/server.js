@@ -1,8 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+<<<<<<< Updated upstream
 const authRoutes = require('./routes/auth'); // Adjusted path to `auth.js`
 const userRoutes = require('./routes/userRoutes'); // Example for user routes
+=======
+const authRoutes = require('./controllers/authRoutes'); // Path to authentication routes
+const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
+>>>>>>> Stashed changes
 
 dotenv.config(); // Load environment variables
 
@@ -22,6 +27,7 @@ app.use(express.json());
 
 // Mount route files
 app.use('/api/auth', authRoutes); // Authentication routes
+<<<<<<< Updated upstream
 app.use('/api/users', userRoutes); // Example user routes
 
 
@@ -30,6 +36,9 @@ app.use('/api/auth', (req, res, next) => {
   console.log(`API AUTH Route hit: ${req.method} ${req.url}`);
   next();
 });
+=======
+app.use('/api/users', userRoutes); // User-related routes
+>>>>>>> Stashed changes
 
 // Handle unknown routes
 app.use((req, res) => {

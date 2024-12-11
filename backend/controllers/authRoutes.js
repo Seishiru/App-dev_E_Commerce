@@ -18,6 +18,7 @@ const verifyCodeSchema = Joi.object({
 router.post('/send-email-code', async (req, res) => {
   const { email } = req.body;
 
+  // Validate email format
   const { error } = emailSchema.validate({ email });
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
@@ -45,14 +46,22 @@ router.post('/send-email-code', async (req, res) => {
       );
     }
 
-    // Send email with plain verification code
+    // Send email with the plain verification code
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
+      tls: {
+        rejectUnauthorized: false // To handle SSL issues if any
+      }
     });
+
+    // Ensure environment variables are set and valid
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error('Missing email credentials in environment variables');
+    }
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -64,8 +73,9 @@ router.post('/send-email-code', async (req, res) => {
     console.log(`Verification email sent to ${email} with code: ${verificationCode}`);
     res.status(200).json({ message: 'Verification code sent' });
   } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Failed to send verification code' });
+    // Improved error handling with specific messages
+    console.error('Error:', err.message);
+    res.status(500).json({ error: `Failed to send verification code: ${err.message}` });
   }
 });
 
@@ -73,12 +83,14 @@ router.post('/send-email-code', async (req, res) => {
 router.post('/verify-code', async (req, res) => {
   const { email, code } = req.body;
 
+  // Validate email and code format
   const { error } = verifyCodeSchema.validate({ email, code });
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
 
   try {
+    // Fetch stored code and expiry time from the database
     const [result] = await pool.promise().query(
       'SELECT code, expiry_time FROM email_verification WHERE email = ?',
       [email]
@@ -90,25 +102,26 @@ router.post('/verify-code', async (req, res) => {
 
     const { code: storedCode, expiry_time } = result[0];
 
-    // Debug: Log the expected code and the received code
+    // Log the expected code and the received code for debugging
     console.log(`Expected code for ${email}: ${storedCode}`);
     console.log(`Received code: ${code}`);
 
-    // Check if the code is expired
+    // Check if the code has expired
     if (new Date(expiry_time) < new Date()) {
       return res.status(400).json({ error: 'Verification code has expired' });
     }
 
-    // Compare the provided code with the stored plain code
-    if (parseInt(code) !== storedCode) {
+    // Compare the provided code with the stored code (convert both to strings for consistency)
+    if (String(code) !== String(storedCode)) {
       return res.status(400).json({ error: 'Invalid verification code' });
     }
 
     // If the code is valid, you can perform additional actions (e.g., activate the account)
     res.status(200).json({ message: 'Code verified successfully' });
   } catch (err) {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Failed to verify the code' });
+    // Improved error handling with specific messages
+    console.error('Error:', err.message);
+    res.status(500).json({ error: `Failed to verify the code: ${err.message}` });
   }
 });
 
