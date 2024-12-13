@@ -10,8 +10,7 @@ import saleImage7 from "../assets/homepage/hp7.png";
 import saleImage8 from "../assets/homepage/hp8.avif";
 import saleImage9 from "../assets/homepage/hp9.avif";
 import saleImage10 from "../assets/homepage/hp10.avif";
-
-import ProductItem from "../components/ProductItem";
+import ProductGrid from "../components/ProductGrid";
 
 const HomePage = () => {
   // Create an array of all sale images
@@ -76,14 +75,8 @@ const HomePage = () => {
       {/* Suggested Products Section */}
       <div className="section-container">
         <h2 className="section-title">Suggested products for you</h2>
-        <div className="product-grid">
-            {/* Temporary */}
-          {Array(10)
-            .fill(null)
-            .map((_, index) => (
-              <ProductItem key={index} />
-            ))}
-        </div>
+        <hr />
+        <ProductGrid/>
       </div>
     </div>
   );
