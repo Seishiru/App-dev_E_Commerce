@@ -24,7 +24,6 @@
 .product-details-summary{
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
   align-items: center;
 }
 
@@ -38,11 +37,6 @@
 .product-sales-summary{
   display: flex;
   gap: 8px;
-}
-
-.product-buttons{
-  display: flex;
-  gap: 10px;
 }
 
 .product-description div {
@@ -62,6 +56,17 @@
   max-height: none;
 }
 
+.product-description-label{
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.product-buttons{
+  display: flex;
+  gap: 10px;
+}
 
 .buy-button{
   border: 1px solid #de4e00;

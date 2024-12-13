@@ -33,12 +33,11 @@ const ProductPage = () => {
                 <StarRating rating={4.7} /> | 10k+ sold
               </div>
             </div>
-            <VariationDropbox variations={productVariations}/>
+            <VariationDropbox variations={productVariations} />
             <div
-              className={`product-description ${
-                isExpanded ? "expanded" : ""
-              }`}
+              className={`product-description ${isExpanded ? "expanded" : ""}`}
             >
+              <div className="product-description-label">Product Description:</div>
               <div>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
