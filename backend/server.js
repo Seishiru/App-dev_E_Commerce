@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 
 const authRoutes = require('./controllers/authRoutes');
 const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
+const productRoutes = require('./routes/productRoutes'); // Path to your productRoutes file
+
 
 dotenv.config(); // Load environment variables
 
@@ -24,6 +26,8 @@ app.use(express.json());
 // Mount route files
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/users', userRoutes); // Example user routes
+app.use('/api/products', productRoutes); // Mount product routes
+
 
 // Handle unknown routes
 app.use((req, res) => {
