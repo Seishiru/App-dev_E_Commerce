@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { jwtDecode} from "jwt-decode"; // Correctly imported
+import { jwtDecode } from "jwt-decode"; // Correctly imported
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
@@ -11,6 +11,7 @@ import LoggedOutHeader from "./components/LoggedOutHeader";
 import LoggedInHeader from "./components/LoggedInHeader";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import AdminPage from "./pages/AdminPage";
 import "./css/style.css";
 
 const App = () => {
@@ -82,6 +83,7 @@ const App = () => {
           <Route path="/purchases" element={<PurchasesPage />} />
           <Route path="/login" element={<></>} />
           <Route path="/signup" element={<></>} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
     </div>
