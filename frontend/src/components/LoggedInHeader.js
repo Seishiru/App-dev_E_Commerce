@@ -24,9 +24,11 @@ const LoggedInHeader = ({ user, handleLogout }) => {
               placeholder="Search for products..."
             />
           </div>
+          <Link to='/search'>
           <button className="search-button">
             <i className="fas fa-search"></i>
           </button>
+          </Link>
           <div className="cart">
             <Link to="/cart">
               <i className="fas fa-shopping-cart cart-icon"></i>

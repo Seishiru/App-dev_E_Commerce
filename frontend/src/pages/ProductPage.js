@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const ProductPage = () => {
     return (
-        <div>
+        <div className='section-container'>
             <h1>Product Details</h1>
             <Link to="/">Back to Home</Link>
         </div>
