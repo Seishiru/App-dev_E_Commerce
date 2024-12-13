@@ -81,3 +81,14 @@
     color: #666;
   }
   
+  .image-preview {
+    margin-top: 10px;
+    max-width: 300px; /* Limit the width of the preview */
+    max-height: 300px; /* Limit the height of the preview */
+    overflow: hidden;
+  }
+  
+  .preview-image {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+  }

@@ -17,6 +17,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+hr {
+  margin-bottom: 15px;
+}
+
 p, a, span, button {
   font-weight: 400; /* Regular font weight for body text */
   margin: 0;
@@ -72,10 +76,6 @@ button {
   font-weight: 500;
 }
 
-button:hover {
-  background-color: #de4e00;
-}
-
 input{
   padding: 10px;
   border: 1px solid #ccc;
@@ -105,4 +105,29 @@ input{
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.review-star{
+  color: #FFD43B;
+}
+
+.variation-dropdown {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.dropdown {
+  
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.see-more{
+  cursor: pointer;
+  margin: 5px 0 10px;
+}
+
+.see-more:hover{
+  text-decoration: underline;
 }
