@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminPage from "./pages/AdminPage";
 import "./css/style.css";
+import SearchProduct from "./pages/SearchProduct";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -81,6 +82,7 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/purchases" element={<PurchasesPage />} />
+          <Route path="/search" element={<SearchProduct />} />
           <Route path="/login" element={<></>} />
           <Route path="/signup" element={<></>} />
           <Route path="/admin" element={<AdminPage />} />

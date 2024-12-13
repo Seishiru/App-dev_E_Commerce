@@ -59,6 +59,7 @@ a {
 .section-title{
   font-size: 20px;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 button {

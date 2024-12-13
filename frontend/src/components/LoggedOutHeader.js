@@ -24,9 +24,11 @@ const LoggedOutHeader = ({ setShowLogin, setShowSignup }) => {
               placeholder="Search for products..."
             />
           </div>
-          <button className="search-button">
-            <i className="fas fa-search"></i>
-          </button>
+          <Link to='/search'>
+                    <button className="search-button">
+                      <i className="fas fa-search"></i>
+                    </button>
+                    </Link>
           <div className="cart">
             <Link to="/cart">
               <i className="fas fa-shopping-cart cart-icon"></i>
