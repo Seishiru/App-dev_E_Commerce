@@ -106,3 +106,29 @@ input{
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.review-star{
+  color: #FFD43B;
+}
+
+.variation-dropdown {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.dropdown {
+  
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.see-more{
+  cursor: pointer;
+  text-align: center;
+  margin-top: 5px;
+}
+
+.see-more:hover{
+  text-decoration: underline;
+}
