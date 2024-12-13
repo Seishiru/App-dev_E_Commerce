@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+// Import route handlers
 const authRoutes = require('./controllers/authRoutes');
-const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
+const userRoutes = require('./routes/userRoutes');
+const searchRoutes = require('./routes/searchRoutes'); // Import the search route
+const productRoutes = require("./routes/productRoutes");
 
 dotenv.config(); // Load environment variables
 
@@ -24,6 +27,8 @@ app.use(express.json());
 // Mount route files
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/users', userRoutes); // Example user routes
+app.use('/api/search', searchRoutes); // Mount the search route
+app.use("/api/products", productRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {
