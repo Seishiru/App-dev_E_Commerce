@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../css/HomePage.css";
-import saleImage1 from "../assets/homepage/hp1.avif";
-import saleImage2 from "../assets/homepage/hp2.avif";
-import saleImage3 from "../assets/homepage/hp3.avif";
-import saleImage4 from "../assets/homepage/hp4.avif";
+import saleImage1 from "../assets/homepage/hp1.jpg";
+import saleImage2 from "../assets/homepage/hp2.jpg";
+import saleImage3 from "../assets/homepage/hp3.jpg";
+import saleImage4 from "../assets/homepage/hp4.jpg";
 import saleImage5 from "../assets/homepage/hp5.avif";
-import saleImage6 from "../assets/homepage/hp6.avif";
-import saleImage7 from "../assets/homepage/hp7.avif";
+import saleImage6 from "../assets/homepage/hp6.jpg";
+import saleImage7 from "../assets/homepage/hp7.png";
 import saleImage8 from "../assets/homepage/hp8.avif";
 import saleImage9 from "../assets/homepage/hp9.avif";
 import saleImage10 from "../assets/homepage/hp10.avif";
