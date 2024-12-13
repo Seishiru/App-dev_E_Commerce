@@ -1,10 +1,12 @@
 /* AdminPage.css */
 
+/* General Styles */
 .admin-page {
     font-family: Arial, sans-serif;
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
+    background-color: #f8f8f8;
   }
   
   h1, h2 {
@@ -12,41 +14,99 @@
     color: #333;
   }
   
-  .add-product-form {
-    background-color: #f9f9f9;
+  /* Admin Dashboard Overview */
+  .admin-dashboard {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  
+  .admin-dashboard .card {
+    width: 30%;
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
   }
   
-  .add-product-form input,
-  .add-product-form textarea,
-  .add-product-form button {
-    width: calc(100% - 20px);
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  .admin-dashboard .card:hover {
+    transform: translateY(-10px);
   }
   
-  .add-product-form button {
+  .card .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .card .card-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Sidebar */
+  .admin-sidebar {
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #343a40;
+    color: #fff;
+    padding: 30px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .admin-sidebar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 15px 0;
+    transition: color 0.3s;
+  }
+  
+  .admin-sidebar a:hover {
+    color: #007bff;
+  }
+  
+  /* Admin Page Content */
+  .admin-content {
+    margin-left: 270px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #007bff;
+  }
+  
+  /* Button Styles */
+  .admin-page button {
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    padding: 10px 20px;
     border: none;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
-  .add-product-form button:hover {
+  .admin-page button:hover {
     background-color: #0056b3;
   }
   
-  .product-list {
-    margin-top: 20px;
-  }
-  
+  /* Product List */
   .product-list ul {
     list-style-type: none;
     padding: 0;
@@ -60,6 +120,11 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .product-item:hover {
+    transform: translateY(-5px);
   }
   
   .product-item .product-image {
@@ -81,14 +146,46 @@
     color: #666;
   }
   
-  .image-preview {
-    margin-top: 10px;
-    max-width: 300px; /* Limit the width of the preview */
-    max-height: 300px; /* Limit the height of the preview */
-    overflow: hidden;
+  /* Pagination for product list */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
   }
   
-  .preview-image {
-    width: 100%; /* Make the image responsive */
-    height: auto; /* Maintain aspect ratio */
+  .pagination a {
+    padding: 10px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
   }
+  
+  .pagination a:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Media Queries for responsive design */
+  @media (max-width: 768px) {
+    .admin-dashboard {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .admin-dashboard .card {
+      width: 80%;
+      margin-bottom: 20px;
+    }
+  
+    .admin-sidebar {
+      width: 200px;
+      padding: 20px;
+    }
+  
+    .admin-content {
+      margin-left: 0;
+    }
+  }
+
+  

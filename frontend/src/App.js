@@ -11,7 +11,10 @@ import LoggedOutHeader from "./components/LoggedOutHeader";
 import LoggedInHeader from "./components/LoggedInHeader";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import AdminPage from "./pages/AdminPage";
+import AdminPage from './pages/AdminPage'; // Correct path for AdminPage
+import CreateProd from './pages/CreateProd'; // Correct path for CreateProd
+import Orders from './pages/Orders'; // Correct path for Orders
+import Categories from './pages/Categories'; // Correct path for Categories
 import "./css/style.css";
 import SearchProduct from "./pages/SearchProduct";
 
@@ -83,9 +86,12 @@ const App = () => {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/purchases" element={<PurchasesPage />} />
           <Route path="/search" element={<SearchProduct />} />
-          <Route path="/login" element={<></>} />
-          <Route path="/signup" element={<></>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/create-product" element={<CreateProd />} />
+          <Route path="/admin/orders" element={<Orders />} />
+          <Route path="/admin/categories" element={<Categories />} />
         </Routes>
       </div>
     </div>
