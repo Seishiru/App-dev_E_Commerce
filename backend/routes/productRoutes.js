@@ -29,21 +29,23 @@ router.get('/categories', (req, res) => {
   });
 });
 
-// Get top 10 products by stock_quantity
-router.get("/top-stock", async (req, res) => {
-  try {
-    const query = `
-      SELECT * 
-      FROM products 
-      ORDER BY stock_quantity DESC 
-      LIMIT 10
-    `;
-    const [results] = await db.execute(query);
-    res.json(results);
-  } catch (error) {
-    console.error("Error fetching top products:", error);
-    res.status(500).json({ message: "Failed to fetch top products" });
+// Route to create a new category
+router.post('/categories', (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ success: false, message: 'Category name is required' });
   }
+
+  // Insert the category into the database
+  db.query('INSERT INTO categories (name) VALUES (?)', [name], (err, result) => {
+    if (err) {
+      console.error('Error creating category:', err);
+      return res.status(500).json({ success: false, message: 'Failed to create category' });
+    }
+
+    res.status(200).json({ success: true, message: 'Category created successfully' });
+  });
 });
 
 module.exports = router;

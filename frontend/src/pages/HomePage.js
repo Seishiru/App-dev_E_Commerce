@@ -30,9 +30,6 @@ const HomePage = () => {
   // State to track the current image index
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // State to store the top 10 products
-  const [topProducts, setTopProducts] = useState([]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % saleImages.length);
@@ -56,25 +53,6 @@ const HomePage = () => {
         imageElement.removeEventListener("animationend", removeClass);
     }
   }, [currentImageIndex]);
-
-  useEffect(() => {
-    // Fetch the top 10 products by stock_quantity from the API
-    const fetchTopProducts = async () => {
-      try {
-        const response = await fetch("/api/products/top-stock");
-        if (response.ok) {
-          const data = await response.json();
-          setTopProducts(data);
-        } else {
-          console.error("Failed to fetch top products");
-        }
-      } catch (error) {
-        console.error("Error fetching top products:", error);
-      }
-    };
-
-    fetchTopProducts();
-  }, []);
 
   return (
     <div>

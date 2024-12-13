@@ -1,4 +1,4 @@
-
+// src/components/LoggedInHeader.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
 import "../css/Header.css";
