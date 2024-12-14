@@ -39,6 +39,11 @@
   color: #333333;
 }
 
+.product-card-description {
+  font-size: 12px; /* Smaller font size for the description */
+  color: #777; /* Lighter color for the description */
+  margin-top: 5px; /* Add a bit of space between the name and description */
+}
 .product-card-details{
   display: flex;
   justify-content: space-between;
