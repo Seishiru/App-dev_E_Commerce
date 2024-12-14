@@ -5,7 +5,7 @@ const AdminLayout = ({ children }) => {
   return (
     <div className="admin-layout">
       <header className="admin-header">
-        <h1>Admin Dashboard</h1>
+        {/* <h1>Admin Dashboard</h1> */}
       </header>
       <aside className="admin-sidebar">
         <ul>

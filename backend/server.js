@@ -3,12 +3,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-
-// Import route handlers
+// Importing route files
 const authRoutes = require('./controllers/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const searchRoutes = require('./routes/searchRoutes'); // Import the search route
-const productRoutes = require("./routes/productRoutes");
+const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
+const productRoutes = require('./routes/productRoutes'); // Path to your productRoutes file
 
 dotenv.config(); // Load environment variables
 
@@ -29,11 +27,10 @@ app.use(express.json());
 // Mount route files
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/users', userRoutes); // Example user routes
-app.use('/api/products', productRoutes); // Mount product routes
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/products', productRoutes); // Mount product routes (which includes categories)
 
-app.use('/api/search', searchRoutes); // Mount the search route
-app.use("/api/products", productRoutes);
+// Static file serving (for image uploads)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Handle unknown routes
 app.use((req, res) => {
