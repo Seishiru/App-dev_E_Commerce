@@ -1,70 +1,277 @@
-.profile-container{
+/* Profile Container - Landscape Card Style */
+.profile-container {
   display: flex;
   justify-content: center;
-  gap: 50px;
-  padding: 20px;
+  gap: 40px;
+  padding: 40px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile-left{
+.profile-left {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 35%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.profile-image{
-  display: flex;
-  border-radius: 100%;
-  height: 100%;
+.profile-image {
+  border-radius: 50%;
+  height: 180px;
+  width: 180px;
+  object-fit: cover;
+  border: 3px solid #ddd;
 }
 
-.profile-right{
+.profile-right {
   width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.profile-item{
-  width: 100%;
+.profile-item {
+  margin-bottom: 20px;
 }
 
-.profile-item-input{
+.profile-item-input {
   margin-top: 8px;
   margin-bottom: 20px;
-  width: 90%;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
 
-.profile-button-container{
+.profile-item-input:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.profile-button-container {
   text-align: center;
 }
 
-.profile-button{
-  margin: 10px 10px 40px;
-  width: 15%;
+.profile-button {
+  margin: 10px;
+  width: 150px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-.address-item-container{
+.profile-button:hover {
+  background-color: #0056b3;
+}
+
+/* Address Container */
+.address-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Address Card */
+.address-card {
+  display: flex;
+  width: calc(50% - 10px); /* Half the width with gap */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Address Left - Image */
+.address-left {
+  flex: 0 0 50px;
+  margin-right: 10px;
+}
+
+/* Address Image */
+.address-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Address Right - Details */
+.address-right {
+  flex: 1;
+}
+
+/* Address Receiver */
+.address-reciever h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.address-reciever p {
+  margin: 5px 0;
+}
+
+.address-reciever span {
+  font-size: 0.9em;
+  color: #777;
+}
+
+/* Button Container */
+.address-button-container {
+  margin-top: 10px;
+}
+
+/* Address Button */
+.address-button {
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.address-button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Address Section - Card Style */
+.address-item-container {
   display: flex;
   justify-content: space-between;
-  margin: 20px 0px;
+  margin: 15px 0;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.address-contents{
-  width: 40%;
+.address-contents {
+  width: 60%;
 }
 
-.address-reciever h3{
+.address-reciever h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.address-reciever p {
   font-size: 16px;
-  margin-bottom: 5px;
+  color: #555;
 }
 
-.address-reciever p{
-  font-size: 16px;
+.address-type {
+  font-size: 14px;
+  color: #888;
 }
 
-.address-button-container{
+.address-button-container {
   display: flex;
   align-items: center;
 }
 
-.address-button{
+.address-button {
+  background-color: #ff6f61;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.address-button:hover {
+  background-color: #e04d3e;
+}
+
+.address-button:first-child {
+  background-color: #28a745;
+}
+
+.address-button:first-child:hover {
+  background-color: #218838;
+}
+
+.address-button:not(:first-child) {
   margin-left: 10px;
 }
+
+/* Add Address Form - Card Style */
+.add-address-form {
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-address-form input,
+.add-address-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.add-address-form input:focus,
+.add-address-form select:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
+.add-address-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-address-button:hover {
+  background-color: #0056b3;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .profile-left, .profile-right {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .profile-image {
+    height: 150px;
+    width: 150px;
+  }
+
+  .profile-button {
+    width: 100%;
+  }
+}
+

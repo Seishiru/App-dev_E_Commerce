@@ -7,6 +7,7 @@ const path = require('path');
 const authRoutes = require('../backend/controllers/authRoutes');
 const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
 const productRoutes = require('./routes/productRoutes'); // Path to your productRoutes file
+const addressRoutes = require('./routes/addressRoutes');
 
 dotenv.config(); // Load environment variables
 
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes); // Authentication routes
 app.use('/api/users', userRoutes); // Example user routes
 app.use('/api/products', productRoutes); // Mount product routes (which includes categories)
+app.use('/api', addressRoutes); // Use the address routes under `/api`
 
 // Static file serving (for image uploads)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
