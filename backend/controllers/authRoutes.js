@@ -6,6 +6,14 @@ const Joi = require('joi');
 const pool = require('../db'); // Database connection
 const router = express.Router();
 
+
+
+
+
+
+
+
+
 // Validation schemas
 const emailSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -21,29 +29,6 @@ const handleError = (res, errorMessage, statusCode = 500) => {
   return res.status(statusCode).json({ error: errorMessage });
 };
 
-// User Registration Route (Signup)
-router.post('/signup', async (req, res) => {
-  const { name, email, password, address, phone } = req.body;
-
-  if (!name || !email || !password) {
-    return handleError(res, 'Name, email, and password are required', 400);
-  }
-
-  try {
-    const [results] = await pool.promise().query('SELECT * FROM users WHERE email = ?', [email]);
-    if (results.length > 0) return handleError(res, 'Email already exists', 400);
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.promise().query(
-      'INSERT INTO users (name, email, password, address, phone) VALUES (?, ?, ?, ?, ?)',
-      [name, email, hashedPassword, address, phone]
-    );
-
-    res.status(201).json({ message: 'User registered successfully' });
-  } catch (err) {
-    return handleError(res, 'Failed to register user');
-  }
-});
 
 // Login Route
 router.post('/login', async (req, res) => {
@@ -84,9 +69,33 @@ router.post('/login', async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Endpoint to send email verification code
 router.post('/send-email-code', async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body; // Add password to the request body
+
+  // Debugging: Log the received email and password to check if they are received correctly
+  console.log("Received email:", email);
+  console.log("Received password:", password); // Log the password for debugging
 
   // Validate email format
   const { error } = emailSchema.validate({ email });
@@ -94,26 +103,34 @@ router.post('/send-email-code', async (req, res) => {
     return res.status(400).json({ error: error.details[0].message });
   }
 
+  // Validate password
+  if (!password) {
+    return res.status(400).json({ error: 'Password is required' }); // Check if password is provided
+  }
+
   // Generate a plain verification code (6-digit)
   const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit code
   const expiryTime = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
 
   try {
-    // Check for existing record
-    const [existingRecord] = await pool.promise().query('SELECT * FROM email_verification WHERE email = ?', [email]);
+    // Check if the user already exists in the database
+    const [existingRecord] = await pool.promise().query('SELECT * FROM users WHERE email = ?', [email]);
 
     if (existingRecord.length > 0) {
-      // Update if record exists
+      // Update the verification code and expiry time
       await pool.promise().query(
-        'UPDATE email_verification SET code = ?, expiry_time = ? WHERE email = ?',
+        'UPDATE users SET verification_code = ?, expiry_time = ? WHERE email = ?',
         [verificationCode, expiryTime, email]
       );
     } else {
-      // Insert if no record exists
-      await pool.promise().query(
-        'INSERT INTO email_verification (email, code, expiry_time) VALUES (?, ?, ?)',
-        [email, verificationCode, expiryTime]
+      // Insert new user into the users table, including the password
+      const [insertResult] = await pool.promise().query(
+        'INSERT INTO users (email, password, verification_code, expiry_time) VALUES (?, ?, ?, ?)',
+        [email, password, verificationCode, expiryTime] // Insert email, password, verification code, and expiry time
       );
+
+      // Return a success message after inserting the new user
+      return res.status(201).json({ message: 'New user created and verification code sent' });
     }
 
     // Send email with the plain verification code
@@ -143,11 +160,29 @@ router.post('/send-email-code', async (req, res) => {
     console.log(`Verification email sent to ${email} with code: ${verificationCode}`);
     res.status(200).json({ message: 'Verification code sent' });
   } catch (err) {
-    // Improved error handling with specific messages
     console.error('Error:', err.message);
     res.status(500).json({ error: `Failed to send verification code: ${err.message}` });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Endpoint to verify the code
 router.post('/verify-code', async (req, res) => {
@@ -160,9 +195,9 @@ router.post('/verify-code', async (req, res) => {
   }
 
   try {
-    // Fetch stored code and expiry time from the database
+    // Fetch stored code and expiry time from the users table
     const [result] = await pool.promise().query(
-      'SELECT code, expiry_time FROM email_verification WHERE email = ?',
+      'SELECT verification_code, expiry_time FROM users WHERE email = ?',
       [email]
     );
 
@@ -170,29 +205,36 @@ router.post('/verify-code', async (req, res) => {
       return res.status(404).json({ error: 'Email not found' });
     }
 
-    const { code: storedCode, expiry_time } = result[0];
+    const { verification_code, verification_expiry } = result[0];
 
     // Log the expected code and the received code for debugging
-    console.log(`Expected code for ${email}: ${storedCode}`);
+    console.log(`Expected code for ${email}: ${verification_code}`);
     console.log(`Received code: ${code}`);
 
     // Check if the code has expired
-    if (new Date(expiry_time) < new Date()) {
+    if (new Date(verification_expiry) < new Date()) {
       return res.status(400).json({ error: 'Verification code has expired' });
     }
 
     // Compare the provided code with the stored code (convert both to strings for consistency)
-    if (String(code) !== String(storedCode)) {
+    if (String(code) !== String(verification_code)) {
       return res.status(400).json({ error: 'Invalid verification code' });
     }
 
-    // If the code is valid, you can perform additional actions (e.g., activate the account)
-    res.status(200).json({ message: 'Code verified successfully' });
+// If the code is valid, you can perform additional actions (e.g., activate the account)
+await pool.promise().query(
+  'UPDATE users SET is_verified = 1 WHERE email = ?',
+  [email]
+);
+
+// Respond with success message
+res.status(200).json({ message: 'Code verified successfully and account activated' });
+
   } catch (err) {
-    // Improved error handling with specific messages
     console.error('Error:', err.message);
     res.status(500).json({ error: `Failed to verify the code: ${err.message}` });
   }
 });
+
 
 module.exports = router;

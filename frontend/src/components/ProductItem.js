@@ -3,24 +3,35 @@ import "../css/ProductItem.css";
 import { Link } from "react-router-dom";
 
 function ProductItem({ product }) {
+  // Add a check for undefined or missing properties
+  if (!product) {
+    return <div>Product data is unavailable</div>; // Render a fallback message or empty component
+  }
+
+  const { product_id, image_url, name, description, price, stock_quantity } = product;
+
+  // Ensure all necessary fields are present before trying to render them
+  if (!product_id || !image_url || !name || !description || price === undefined || stock_quantity === undefined) {
+    return <div>Product information is incomplete</div>;
+  }
+
   return (
-    <Link to={`/product/${product.product_id}`}>
+    <Link to={`/product/${product_id}`}>
       <div className="product-card">
         <div className="product-card-image">
-          <img src={`http://localhost:5000/uploads/${product.image_url}`} alt={product.name} />
+          <img src={`http://localhost:5000/uploads/${image_url}`} alt={name} />
         </div>
         <div className="product-card-summary">
-          <div className="product-card-name">{product.name}</div> {/* Display name */}
-          <div className="product-card-description">{product.description}</div>
+          <div className="product-card-name">{name}</div> {/* Display name */}
+          <div className="product-card-description">{description}</div>
           <div className="product-card-details">
-            <div className="product-card-price">₱{product.price}</div>
-            <div>{product.stock_quantity} in stock</div>
+            <div className="product-card-price">₱{price}</div>
+            <div>{stock_quantity} in stock</div>
           </div>
         </div>
       </div>
     </Link>
   );
 }
-
 
 export default ProductItem;

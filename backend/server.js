@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 // Importing route files
-const authRoutes = require('./controllers/authRoutes');
+const authRoutes = require('../backend/controllers/authRoutes');
 const userRoutes = require('./routes/userRoutes'); // Path to user-related routes
 const productRoutes = require('./routes/productRoutes'); // Path to your productRoutes file
 

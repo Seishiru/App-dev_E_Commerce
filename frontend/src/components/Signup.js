@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../css/AuthModal.css';
 
 const Signup = ({ closeModal, setShowLogin }) => {
-  const [email, setEmail] = useState('');cd 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(''); // New state for password
   const [verificationCode, setVerificationCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,17 +29,18 @@ const Signup = ({ closeModal, setShowLogin }) => {
     setLoading(true);
     setErrorMessage('');
   
-    if (!email) {
-      setErrorMessage('Email is required');
+    if (!email || !password) {
+      setErrorMessage('Email and password are required');
       setLoading(false);
       return;
     }
   
     try {
+      // Send both email and password in the request body
       const response = await fetch('http://localhost:5000/api/auth/send-email-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }), // Remove the verificationCode here
+        body: JSON.stringify({ email, password }), // Send email and password
       });
   
       const data = await response.json();
@@ -57,6 +59,7 @@ const Signup = ({ closeModal, setShowLogin }) => {
       setLoading(false);
     }
   };
+  
   
 
   const handleVerification = async (e) => {
@@ -87,6 +90,7 @@ const Signup = ({ closeModal, setShowLogin }) => {
         console.log('Verification successful');
         closeModal(); // Close the modal after successful verification
         setEmail(''); // Reset email field
+        setPassword(''); // Reset password field
         setVerificationCode(''); // Reset verification code field
       } else {
         setErrorMessage(data.error || 'Invalid verification code');
@@ -146,6 +150,12 @@ const Signup = ({ closeModal, setShowLogin }) => {
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)} // Set email on change
+            />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} // Set password on change
             />
             {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
 
