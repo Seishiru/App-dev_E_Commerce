@@ -29,7 +29,6 @@ const handleError = (res, errorMessage, statusCode = 500) => {
   return res.status(statusCode).json({ error: errorMessage });
 };
 
-
 // Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -46,6 +45,11 @@ router.post('/login', async (req, res) => {
     }
 
     const user = results[0];
+
+    // Check if the user is verified (is_verified = 1)
+    if (user.is_verified !== 1) {
+      return handleError(res, 'User is not verified', 400); // Reject login if not verified
+    }
 
     // Compare the provided password with the stored password
     if (password !== user.password) {
@@ -89,6 +93,7 @@ router.post('/login', async (req, res) => {
 
 
 
+
 // Endpoint to send email verification code
 router.post('/send-email-code', async (req, res) => {
   const { email, password } = req.body; // Add password to the request body
@@ -100,11 +105,13 @@ router.post('/send-email-code', async (req, res) => {
   // Validate email format
   const { error } = emailSchema.validate({ email });
   if (error) {
+    console.log('Email validation error:', error.details[0].message); // Log validation error
     return res.status(400).json({ error: error.details[0].message });
   }
 
   // Validate password
   if (!password) {
+    console.log("Password is missing");
     return res.status(400).json({ error: 'Password is required' }); // Check if password is provided
   }
 
@@ -112,28 +119,54 @@ router.post('/send-email-code', async (req, res) => {
   const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit code
   const expiryTime = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
 
+  console.log(`Generated verification code: ${verificationCode}`);
+  console.log(`Expiry time for the code: ${expiryTime}`);
+
   try {
     // Check if the user already exists in the database
+    console.log('Checking if user exists in the database...');
     const [existingRecord] = await pool.promise().query('SELECT * FROM users WHERE email = ?', [email]);
 
     if (existingRecord.length > 0) {
+      const user = existingRecord[0];
+
+      // Check if the user is already verified
+      if (user.is_verified === 1) {
+        console.log('User is already verified, no need to send code');
+        return res.status(400).json({ error: 'User is already verified' }); // Do not send the code if verified
+      }
+
+      console.log('User found, updating verification code...');
       // Update the verification code and expiry time
       await pool.promise().query(
         'UPDATE users SET verification_code = ?, expiry_time = ? WHERE email = ?',
         [verificationCode, expiryTime, email]
       );
+      console.log('Verification code updated in database');
     } else {
+      console.log('User not found, inserting new user...');
       // Insert new user into the users table, including the password
       const [insertResult] = await pool.promise().query(
         'INSERT INTO users (email, password, verification_code, expiry_time) VALUES (?, ?, ?, ?)',
         [email, password, verificationCode, expiryTime] // Insert email, password, verification code, and expiry time
       );
-
-      // Return a success message after inserting the new user
-      return res.status(201).json({ message: 'New user created and verification code sent' });
+      console.log('New user inserted into database:', insertResult);
     }
 
-    // Send email with the plain verification code
+    // Generate a JWT token after successful signup
+    const [userResult] = await pool.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+    const user = userResult[0];
+
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    console.log('Generated JWT token for the new user');
+
+    // Send email with the plain verification code (after user insert or update)
+    console.log('Preparing to send email...');
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -147,9 +180,11 @@ router.post('/send-email-code', async (req, res) => {
 
     // Ensure environment variables are set and valid
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.log('Missing email credentials');
       throw new Error('Missing email credentials in environment variables');
     }
 
+    console.log('Sending email...');
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
@@ -158,9 +193,14 @@ router.post('/send-email-code', async (req, res) => {
     });
 
     console.log(`Verification email sent to ${email} with code: ${verificationCode}`);
-    res.status(200).json({ message: 'Verification code sent' });
+    // Send the JWT token and user details in the response
+    res.status(200).json({
+      message: 'Verification code sent',
+      token,
+      user: { name: user.name, email: user.email }
+    });
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Error during send email process:', err.message);
     res.status(500).json({ error: `Failed to send verification code: ${err.message}` });
   }
 });
