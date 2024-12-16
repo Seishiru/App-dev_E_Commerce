@@ -86,4 +86,79 @@ const addProductToCart = (cart_id, product_id, quantity, res) => {
   });
 };
 
-module.exports = { addToCart };
+// Controller function to get cart items for a user
+const getCartItems = (req, res) => {
+  const { user_id } = req.params;
+
+  // Query to get the user's cart items, join with products to get product details
+  const query = `
+    SELECT 
+      ci.cart_item_id, 
+      ci.quantity, 
+      p.name AS product_name, 
+      p.price, 
+      p.image_url 
+    FROM cart_items ci
+    INNER JOIN products p ON ci.product_id = p.product_id
+    WHERE ci.cart_id IN (SELECT cart_id FROM carts WHERE user_id = ?)
+  `;
+
+  db.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching cart items:", err);
+      return res.status(500).json({ message: "Error fetching cart items" });
+    }
+
+    // If no cart items found
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No items found in cart" });
+    }
+
+    // Send the cart items as a response
+    return res.status(200).json({ cartItems: results });
+  });
+};
+
+// Update cart item quantity
+const updateCartQuantity = async (req, res) => {
+  const { cart_item_id, quantity } = req.body;
+
+  // Log the received data
+  console.log(`Received data: cart_item_id = ${cart_item_id}, quantity = ${quantity}`);
+
+  if (!cart_item_id || !quantity || quantity < 1) {
+    return res.status(400).send({ message: 'Invalid input data.' });
+  }
+
+  try {
+    // Log the SQL query and parameters
+    console.log(`Executing query: UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?`);
+    console.log(`Query parameters: [${quantity}, ${cart_item_id}]`);
+
+    // Use db.execute and check the returned result properly
+    const [result] = await db.execute('UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?', [quantity, cart_item_id]);
+
+    // Log the full result object
+    console.log('Query result:', result);
+
+    // Check if result is defined and contains affected rows
+    if (result && result.affectedRows > 0) {
+      console.log('Quantity updated successfully');
+      res.status(200).send({ message: 'Quantity updated successfully' });
+    } else {
+      // Log when no rows are affected
+      console.log('No rows affected. Cart item not found or quantity already the same');
+      res.status(404).send({ message: 'Cart item not found or quantity is already the same.' });
+    }
+  } catch (error) {
+    // Log the error
+    console.error('Error updating quantity:', error);
+    res.status(500).send({ message: 'Failed to update quantity.' });
+  }
+};
+
+
+
+
+// Export controller functions
+module.exports = { addToCart, getCartItems, updateCartQuantity };

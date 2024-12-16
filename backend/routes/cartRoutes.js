@@ -1,12 +1,15 @@
 const express = require("express");
-const { addToCart } = require("../controllers/cartController");
+const { addToCart, getCartItems, updateCartQuantity } = require("../controllers/cartController");
 
 const router = express.Router();
 
-// Add product to cart
-router.post("/", (req, res, next) => {
-  console.log("Received POST request for adding to cart:", req.body); // Log request body
-  addToCart(req, res, next);
-});
+// Route to add product to cart
+router.post("/", addToCart);
+
+// Route to get cart items
+router.get("/:user_id", getCartItems);
+
+// Route to update cart item quantity
+router.put('/update-quantity', updateCartQuantity);
 
 module.exports = router;
