@@ -1,55 +1,60 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import empty from "../assets/empty_image.png";
 import "../css/ProductPage.css";
-import ProductGrid from "../components/ProductGrid";
 import StarRating from "../components/StarRating";
 import VariationDropbox from "../components/VariationDropdown";
 
 const ProductPage = () => {
-  const productVariations = ["Small", "Medium", "Large"]; // Example variations
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { id } = useParams(); // Get product ID from URL
+  const [product, setProduct] = useState(null);
 
-  const toggleDescription = () => {
-    setIsExpanded((prev) => !prev);
-  };
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/products/${id}`); // This id should match the URL structure
+        if (!response.ok) {
+          throw new Error("Product not found");
+        }
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+    
+
+    fetchProduct();
+  }, [id]); // Re-fetch when the product ID changes
+
+  if (!product) {
+    return <div>Loading...</div>; // Show a loading state until the product is fetched
+  }
 
   return (
     <div>
       <div className="section-container">
         <div className="product-container">
           <div className="product-container-left">
-            <img src={empty} className="product-image" />
+            <img
+              src={product.image_url ? `http://localhost:5000/uploads/${product.image_url}` : empty}
+              alt={product.name}
+              className="product-image"
+            />
           </div>
           <div className="product-container-right">
-            <h2 className="product-name">
-              Product Name product name product name
-            </h2>
+            <h2 className="product-name">{product.name}</h2>
             <hr />
             <div className="product-details-summary">
-              <div className="product-price">₱100</div>
+              <div className="product-price">₱{product.price}</div>
               <div className="product-sales-summary">
                 <StarRating rating={4.7} /> | 10k+ sold
               </div>
             </div>
-            <VariationDropbox variations={productVariations} />
-            <div
-              className={`product-description ${isExpanded ? "expanded" : ""}`}
-            >
+            <VariationDropbox variations={["Small", "Medium", "Large"]} />
+            <div className="product-description">
               <div className="product-description-label">Product Description:</div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </div>
-              <div className="see-more" onClick={toggleDescription}>
-                {isExpanded ? "See less" : "See more"}
-              </div>
+              <div>{product.description}</div>
             </div>
             <div className="product-buttons">
               <button className="buy-button">Buy Now</button>
@@ -67,7 +72,7 @@ const ProductPage = () => {
       <div className="section-container">
         <h2 className="section-title">Recommended Products</h2>
         <hr />
-        <ProductGrid />
+        {/* ProductGrid component can be used here if you want to show other products */}
       </div>
     </div>
   );

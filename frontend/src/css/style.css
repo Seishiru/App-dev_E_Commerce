@@ -6,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box; /* Ensure consistent sizing */
-  background-color: #f9f9f9; /* Optional: light background for e-commerce */
+  background-color: #ececec; /* Optional: light background for e-commerce */
   color: #333; /* Modern dark text color */
 }
 
@@ -28,7 +28,7 @@ p, a, span, button {
 
 a {
   text-decoration: none;
-  color: #de4e00; /* Optional: modern blue for links */
+  color: #272727; /* Optional: modern blue for links */
 }
 
 /* Lazada-like left and right margins for all pages */

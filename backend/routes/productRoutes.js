@@ -18,6 +18,26 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:product_id', (req, res) => {
+  const { product_id } = req.params; // Get the product_id from the request params
+  console.log('Fetching product with product_id:', product_id); // Log for debugging
+
+  db.query('SELECT * FROM products WHERE product_id = ?', [product_id], (err, results) => {
+    if (err) {
+      console.error('Error fetching product:', err); // Log the error for debugging
+      return res.status(500).json({ error: 'Failed to fetch product' });
+    }
+
+    if (results.length === 0) {
+      // If no product is found
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.json(results[0]); // Send the product data as JSON
+  });
+});
+
+
 // Fetch all categories
 router.get('/categories', (req, res) => {
   db.query('SELECT * FROM categories', (err, results) => {

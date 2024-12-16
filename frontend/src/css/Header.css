@@ -42,7 +42,7 @@
 }
 
 .search-button {
-  background-color: #de4e00;
+  background-color: #292929;
   color: #fff;
   border: none;
   padding: 10px;
@@ -64,13 +64,13 @@
 .cart-icon {
   font-size: 25px;
   cursor: pointer;
-  color: #de4e00;
+  color: #292929;
 }
 
 .header-button {
   margin-left: 15px;
   padding: 8px 12px;
-  background-color: #de4e00;
+  background-color: #292929;
   color: white;
   border: none;
   border-radius: 4px;
@@ -78,7 +78,7 @@
 }
 
 .header-button:hover {
-  background-color: #de4e00;
+  background-color: #292929;
 }
 
 
@@ -165,7 +165,7 @@
 
 .modal form button {
   padding: 10px;
-  background-color: #de4e00;
+  background-color: #292929;
   color: white;
   border: none;
   border-radius: 4px;
@@ -173,7 +173,7 @@
 }
 
 .modal form button:hover {
-  background-color: #de4e00;
+  background-color: #292929;
 }
 
 /* Lazada-like margins for container */

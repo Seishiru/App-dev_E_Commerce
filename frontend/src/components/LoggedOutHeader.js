@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate
 import "../css/Header.css";
 import Logo from "../assets/Logo.png"; // Import the logo
+import "../css/LoggedOutHeader.css";
+
 
 const LoggedOutHeader = ({ setShowLogin, setShowSignup }) => {
   const [searchInput, setSearchInput] = useState(""); // State for search input

@@ -1,0 +1,36 @@
+/* Make the header sticky */
+.logged-out-header {
+  position: sticky;
+  top: 0; /* Stick to the top of the viewport */
+  z-index: 1000; /* Ensure the header stays above other content */
+  background-color: #fff; /* Background color to make sure it's visible */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for visual appeal */
+  padding: 10px 20px; /* Padding for spacing */
+  width: 100%; /* Make the header span the entire width */
+  transition: top 0.3s ease-in-out; /* Smooth transition for sticky effect */
+}
+
+/* You can also apply styles to the links, logos, etc. within the header */
+.logged-out-header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logged-out-header .nav-links {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+.logged-out-header .nav-links li {
+  margin: 0 15px;
+}
+
+.logged-out-header .nav-links a {
+  text-decoration: none;
+  color: #333;
+}
+
+.logged-out-header .nav-links a:hover {
+  color: #de4e00; /* Optional: Change color on hover */
+}

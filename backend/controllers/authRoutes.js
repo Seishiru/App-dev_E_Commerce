@@ -29,6 +29,13 @@ const handleError = (res, errorMessage, statusCode = 500) => {
   return res.status(statusCode).json({ error: errorMessage });
 };
 
+
+
+
+
+
+
+
 // Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -56,16 +63,25 @@ router.post('/login', async (req, res) => {
       return handleError(res, 'Incorrect password', 400);
     }
 
+    // Debugging the role (admin or customer)
+    if (user.role === 'admin') {
+      console.log('Logged in as Admin');
+    } else if (user.role === 'customer') {
+      console.log('Logged in as Customer');
+    } else {
+      console.log('Unknown role:', user.role);
+    }
+
     // Generate a JWT token
-    const token = jwt.sign({ id: user._id, name: user.name }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, name: user.name, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
-    // Send the user's name and email along with the token
+    // Send the user's name, email, role, and token
     res.status(200).json({
       message: 'Login successful',
       token,
-      user: { name: user.name, email: user.email },
+      user: { name: user.name, email: user.email, role: user.role }, // Include role in the response
     });
   } catch (err) {
     console.error('Error during login:', err);
@@ -94,11 +110,14 @@ router.post('/login', async (req, res) => {
 
 
 
+
+
 // Endpoint to send email verification code
 router.post('/send-email-code', async (req, res) => {
-  const { email, password } = req.body; // Add password to the request body
+  const { name, email, password } = req.body; // Add name to the request body
 
-  // Debugging: Log the received email and password to check if they are received correctly
+  // Debugging: Log the received name, email, and password to check if they are received correctly
+  console.log("Received name:", name);
   console.log("Received email:", email);
   console.log("Received password:", password); // Log the password for debugging
 
@@ -113,6 +132,12 @@ router.post('/send-email-code', async (req, res) => {
   if (!password) {
     console.log("Password is missing");
     return res.status(400).json({ error: 'Password is required' }); // Check if password is provided
+  }
+
+  // Validate name
+  if (!name) {
+    console.log("Name is missing");
+    return res.status(400).json({ error: 'Name is required' }); // Check if name is provided
   }
 
   // Generate a plain verification code (6-digit)
@@ -145,10 +170,10 @@ router.post('/send-email-code', async (req, res) => {
       console.log('Verification code updated in database');
     } else {
       console.log('User not found, inserting new user...');
-      // Insert new user into the users table, including the password
+      // Insert new user into the users table, including the name and password
       const [insertResult] = await pool.promise().query(
-        'INSERT INTO users (email, password, verification_code, expiry_time) VALUES (?, ?, ?, ?)',
-        [email, password, verificationCode, expiryTime] // Insert email, password, verification code, and expiry time
+        'INSERT INTO users (name, email, password, verification_code, expiry_time) VALUES (?, ?, ?, ?, ?)',
+        [name, email, password, verificationCode, expiryTime] // Insert name, email, password, verification code, and expiry time
       );
       console.log('New user inserted into database:', insertResult);
     }
@@ -204,6 +229,7 @@ router.post('/send-email-code', async (req, res) => {
     res.status(500).json({ error: `Failed to send verification code: ${err.message}` });
   }
 });
+
 
 
 

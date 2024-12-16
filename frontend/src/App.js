@@ -26,13 +26,11 @@ const App = () => {
   const openLogin = () => {
     setShowLogin(true);
     setShowSignup(false);
-    navigate("/login");
   };
 
   const openSignup = () => {
     setShowSignup(true);
     setShowLogin(false);
-    navigate("/signup");
   };
 
   const closeModal = () => {
@@ -79,14 +77,14 @@ const App = () => {
       <div className="container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/product" element={<ProductPage />} />
+          {/* Updated dynamic route for product details */}
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/purchases" element={<PurchasesPage />} />
           <Route path="/search" element={<SearchProduct />} />
-          <Route path="/login" element={<></>} />
-          <Route path="/signup" element={<></>} />
+          {/* Removed the unnecessary login and signup routes */}
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin/create-product" element={<AdminCreateProduct />} />
           <Route path="/admin/orders" element={<AdminOrders />} />

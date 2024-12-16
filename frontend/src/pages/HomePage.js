@@ -13,7 +13,6 @@ import saleImage10 from "../assets/homepage/hp10.avif";
 import ProductGrid from "../components/ProductGrid";
 
 const HomePage = () => {
-  // Create an array of all sale images
   const saleImages = [
     saleImage1,
     saleImage2,
@@ -39,16 +38,13 @@ const HomePage = () => {
   }, [saleImages.length]);
 
   useEffect(() => {
-    // Add the sliding class on image change
     const imageElement = document.querySelector(".sale_image");
     if (imageElement) {
       imageElement.classList.add("slide-in");
 
-      // Remove the class after animation ends
       const removeClass = () => imageElement.classList.remove("slide-in");
       imageElement.addEventListener("animationend", removeClass);
 
-      // Cleanup listener
       return () =>
         imageElement.removeEventListener("animationend", removeClass);
     }
@@ -61,11 +57,11 @@ const HomePage = () => {
         <div className="margin"></div>
         <div className="image-container">
           <div className="large-image">
-            {/* Dynamically update the `src` based on currentImageIndex */}
             <img
               src={saleImages[currentImageIndex]}
-              alt="Shopee Logo"
+              alt="Sale Image"
               className="sale_image"
+              loading="lazy" // Lazy load for performance improvement
             />
           </div>
         </div>
@@ -76,7 +72,7 @@ const HomePage = () => {
       <div className="section-container">
         <h2 className="section-title">Suggested products for you</h2>
         <hr />
-        <ProductGrid/>
+        <ProductGrid />
       </div>
     </div>
   );

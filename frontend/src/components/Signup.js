@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../css/AuthModal.css';
 
 const Signup = ({ closeModal, setShowLogin }) => {
+  const [name, setName] = useState(''); // New state for name
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(''); // New state for password
+  const [password, setPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,18 +30,18 @@ const Signup = ({ closeModal, setShowLogin }) => {
     setLoading(true);
     setErrorMessage('');
   
-    if (!email || !password) {
-      setErrorMessage('Email and password are required');
+    if (!name || !email || !password) {
+      setErrorMessage('Name, email, and password are required');
       setLoading(false);
       return;
     }
   
     try {
-      // Send both email and password in the request body
+      // Send name, email, and password in the request body
       const response = await fetch('http://localhost:5000/api/auth/send-email-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }), // Send email and password
+        body: JSON.stringify({ name, email, password }), // Send name, email, and password
       });
   
       const data = await response.json();
@@ -60,8 +61,6 @@ const Signup = ({ closeModal, setShowLogin }) => {
     }
   };
   
-  
-
   const handleVerification = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -102,7 +101,6 @@ const Signup = ({ closeModal, setShowLogin }) => {
       setLoading(false);
     }
   };
-   
 
   // Resend the verification code
   const handleResendCode = async () => {
@@ -145,6 +143,12 @@ const Signup = ({ closeModal, setShowLogin }) => {
 
         {step === 1 ? (
           <form onSubmit={handleSignup}>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)} // Set name on change
+            />
             <input
               type="email"
               placeholder="Enter your email address"

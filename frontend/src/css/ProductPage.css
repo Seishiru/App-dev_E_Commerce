@@ -30,7 +30,7 @@
 .product-price{
   font-size: 30px;
   margin-left: 15px;
-  color: #de4e00;
+  color: #292929;
   font-weight: bold;
 }
 
@@ -69,13 +69,13 @@
 }
 
 .buy-button{
-  border: 1px solid #de4e00;
+  border: 1px solid #292929;
 }
 
 .add-button{
-  border: 1px solid #de4e00;
+  border: 1px solid #292929;
   background-color: white;
-  color: #de4e00;
+  color: #292929;
 }
 
 @media (max-width: 768px) {

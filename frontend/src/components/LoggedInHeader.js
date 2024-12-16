@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavi
 import "../css/Header.css";
 import Logo from "../assets/Logo.png"; // Import the logo
 import empty from "../assets/empty_image.png";
+import "../css/LoggedInHeader.css"
 
 const LoggedInHeader = ({ user, handleLogout }) => {
   const [searchInput, setSearchInput] = useState(""); // State for search input

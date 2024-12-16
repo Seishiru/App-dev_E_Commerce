@@ -79,7 +79,7 @@
 
 /* Eye Icon when password is visible */
 .eye-icon.visible {
-    color: #de4e00; /* Change color when password is visible */
+    color: #292929; /* Change color when password is visible */
 }
 
 
@@ -87,7 +87,7 @@
 /* Forgot Password */
 .forgot-password {
     font-size: 14px;
-    color: #de4e00;
+    color: #292929;
     text-decoration: none;
     display: block;
     margin-bottom: 15px;
@@ -101,7 +101,7 @@
 /* Buttons */
 .modal form button {
     padding: 12px;
-    background-color: #de4e00;
+    background-color: #766c6c;
     color: white;
     border: none;
     border-radius: 6px;
@@ -113,7 +113,7 @@
 }
 
 .modal form button:hover {
-    background-color: #c34400;
+    background-color: #292929;
 }
 
 /* Sign-Up Link */
@@ -125,7 +125,7 @@
 }
 
 .signup-link span {
-    color: #de4e00;
+    color: #292929;
     cursor: pointer;
 }
 
@@ -149,7 +149,7 @@
 }
 
 .close-x-button:hover {
-    color: #de4e00; /* Change to highlight color on hover */
+    color: #292929; /* Change to highlight color on hover */
 }
 
 /* Modal Animations */
@@ -227,7 +227,7 @@
 .resend-link {
     text-align: center;
     font-size: 14px;
-    color: #de4e00;
+    color: #292929;
     cursor: pointer;
 }
 
@@ -236,7 +236,7 @@
 }
 
 .login-link span {
-    color: #de4e00; /* Highlight color */
+    color: #292929; /* Highlight color */
     cursor: pointer; /* Change the cursor to pointer */
     transition: color 0.3s ease; /* Smooth transition for hover effect */
 }
