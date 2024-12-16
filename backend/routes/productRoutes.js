@@ -7,6 +7,17 @@ const db = require('../db'); // Importing the db connection
 // Route for creating a product with image upload
 router.post('/create', upload.single('image'), createProduct);
 
+// Fetch all categories
+router.get('/categories', (req, res) => {
+  db.query('SELECT * FROM categories', (err, results) => {
+    if (err) {
+      console.error('Error fetching categories:', err);
+      return res.status(500).json({ error: 'Failed to fetch categories' });
+    }
+    res.json(results); // Send the list of categories as JSON
+  });
+});
+
 // Fetch all products
 router.get('/', (req, res) => {
   db.query('SELECT * FROM products', (err, results) => {

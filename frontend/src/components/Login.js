@@ -1,7 +1,7 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/AuthModal.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for redirection
 
 const Login = ({ closeModal, setShowSignup, setUser }) => {
   const [email, setEmail] = useState('');
@@ -9,6 +9,8 @@ const Login = ({ closeModal, setShowSignup, setUser }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate(); // Initialize the navigate function for redirection
 
   const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible);
 
@@ -34,14 +36,28 @@ const Login = ({ closeModal, setShowSignup, setUser }) => {
 
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        setUser({ name: response.data.user.name }); // Use the actual name from the backend
+
+        // Set the user state with name and role
+        setUser({
+          name: response.data.user.name,
+          email: response.data.user.email,
+          role: response.data.user.role,  // Add role here
+        });
+
         closeModal();
         setEmail('');
         setPassword('');
+
+        // Redirect based on the role
+        if (response.data.user.role === 'admin') {
+          navigate('/admin'); // Admin user, redirect to admin page
+        } else {
+          navigate('/'); // Regular user, redirect to home page
+        }
       } else {
         setErrorMessage('Login failed!');
       }
-      
+
     } catch (err) {
       setErrorMessage('Error connecting to the server');
       console.error('Login error:', err);

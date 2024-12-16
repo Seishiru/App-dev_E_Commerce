@@ -53,6 +53,9 @@ router.post('/login', async (req, res) => {
 
     const user = results[0];
 
+    // Debugging: Log the user object to see the role
+    console.log("User fetched from DB:", user);
+
     // Check if the user is verified (is_verified = 1)
     if (user.is_verified !== 1) {
       return handleError(res, 'User is not verified', 400); // Reject login if not verified
@@ -64,18 +67,15 @@ router.post('/login', async (req, res) => {
     }
 
     // Debugging the role (admin or customer)
-    if (user.role === 'admin') {
-      console.log('Logged in as Admin');
-    } else if (user.role === 'customer') {
-      console.log('Logged in as Customer');
-    } else {
-      console.log('Unknown role:', user.role);
-    }
+    console.log('User role:', user.role);
 
-    // Generate a JWT token
+    // Generate a JWT token with the user's role
     const token = jwt.sign({ id: user._id, name: user.name, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1h", // Token expiration time
     });
+
+    // Debugging: Log the generated token
+    console.log('Generated JWT token:', token);
 
     // Send the user's name, email, role, and token
     res.status(200).json({

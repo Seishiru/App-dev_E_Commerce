@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Don't update this line
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
@@ -13,6 +13,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AdminPage from './pages/AdminPage';
 import { AdminCreateProduct, AdminOrders, AdminCategories } from './pages/AdminPage'; // Import named routes
+import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRoute component
+import PublicRoute from './components/PublicRoute'; // Import PublicRoute component
 
 import "./css/style.css";
 import SearchProduct from "./pages/SearchProduct";
@@ -36,59 +38,92 @@ const App = () => {
   const closeModal = () => {
     setShowLogin(false);
     setShowSignup(false);
-    navigate("/");
+    navigate("/"); // Redirect to homepage after closing modal
   };
 
-  // Check for a token in local storage on app load
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        if (decoded.name) {
-          setUser({ name: decoded.name });
+        console.log("Decoded token:", decoded);
+
+        if (decoded.name && decoded.role) {
+          setUser({ name: decoded.name, role: decoded.role });  // Set user info
         } else {
-          console.warn("Decoded token does not contain a 'name' field.");
+          console.warn("Decoded token does not contain expected fields.");
         }
       } catch (error) {
         console.error("Invalid token:", error);
-        localStorage.removeItem("token");
+        localStorage.removeItem("token"); // Remove invalid token
       }
     }
   }, []);
 
   const handleLogout = () => {
-    setUser(null); // Remove user state
+    setUser(null); // Clear user state
     localStorage.removeItem("token"); // Remove token from localStorage
-    navigate("/"); // Redirect to home
+    navigate("/"); // Redirect to homepage
   };
 
   return (
     <div>
+      {/* Display appropriate header based on user login status */}
       {user ? (
         <LoggedInHeader user={user} handleLogout={handleLogout} />
       ) : (
         <LoggedOutHeader setShowLogin={openLogin} setShowSignup={openSignup} />
       )}
 
+      {/* Display Login/Signup modals */}
       {showLogin && <Login closeModal={closeModal} setShowSignup={openSignup} setUser={setUser} />}
       {showSignup && <Signup closeModal={closeModal} setShowLogin={openLogin} />}
 
       <div className="container">
         <Routes>
+          {/* Public Routes accessible for non-logged-in users */}
           <Route path="/" element={<HomePage />} />
-          {/* Updated dynamic route for product details */}
           <Route path="/product/:id" element={<ProductPage />} />
-          <Route path="/profile" element={<UserProfile />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/purchases" element={<PurchasesPage />} />
           <Route path="/search" element={<SearchProduct />} />
-          {/* Removed the unnecessary login and signup routes */}
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/admin/create-product" element={<AdminCreateProduct />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/categories" element={<AdminCategories />} />
+          <Route path="/profile" element={<UserProfile />} />
+
+
+          {/* Public Routes for Login and Signup */}
+          <Route path="/login" element={
+            <PublicRoute user={user}>
+              <Login closeModal={closeModal} setShowSignup={openSignup} setUser={setUser} />
+            </PublicRoute>
+          } />
+          <Route path="/signup" element={
+            <PublicRoute user={user}>
+              <Signup closeModal={closeModal} setShowLogin={openLogin} />
+            </PublicRoute>
+          } />
+
+          {/* Admin Routes wrapped with ProtectedRoute */}
+          <Route path="/admin" element={
+            <ProtectedRoute user={user}>
+              <AdminPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/create-product" element={
+            <ProtectedRoute user={user}>
+              <AdminCreateProduct />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/orders" element={
+            <ProtectedRoute user={user}>
+              <AdminOrders />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/categories" element={
+            <ProtectedRoute user={user}>
+              <AdminCategories />
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
     </div>
