@@ -32,33 +32,6 @@
   padding: 0 20px;
 }
 
-.checkout-columns{
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  align-items: center;
-}
-
-.checkout-columns > div {
-  flex: 1;
-}
-
-
-.checkout-columns > div:nth-child(1) {
-  text-align: left;
-  flex: 3;
-}
-
-.checkout-product-container{
-  display: flex;
-  align-items: center;
-}
-
-.checkout-product-image{
-  width: 100px;
-  margin-right: 20px;
-}
-
 .total-container{
   display: flex;
   justify-content: space-between;
