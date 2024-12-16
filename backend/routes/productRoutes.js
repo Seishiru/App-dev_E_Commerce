@@ -3,6 +3,10 @@ const mysql = require('mysql2');
 const { createProduct, upload } = require('../controllers/productController');
 const router = express.Router();
 const db = require('../db'); // Importing the db connection
+const { getProductById } = require("../controllers/productController");
+
+
+
 
 // Route for creating a product with image upload
 router.post('/create', upload.single('image'), createProduct);

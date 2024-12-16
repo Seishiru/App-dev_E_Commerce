@@ -12,6 +12,24 @@ const storage = multer.diskStorage({
   },
 });
 
+// Get product by ID
+exports.getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [product] = await db.query("SELECT * FROM products WHERE product_id = ?", [id]);
+
+    if (!product.length) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product[0]); // Return the first product found
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const upload = multer({ storage: storage });
 
 // API to handle product creation
