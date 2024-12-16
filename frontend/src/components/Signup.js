@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/AuthModal.css';
 
 const Signup = ({ closeModal, setShowLogin }) => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');cd 
   const [verificationCode, setVerificationCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
