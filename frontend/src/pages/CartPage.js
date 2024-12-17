@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/CartPage.css";
 import empty from "../assets/empty_image.png"; // Default empty cart image
+import CartItem from "../components/CartItem";
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
@@ -50,7 +51,7 @@ function CartPage() {
       });
 
       if (response.ok) {
-        const updatedCart = cartItems.map(item =>
+        const updatedCart = cartItems.map((item) =>
           item.cart_item_id === cart_item_id ? { ...item, quantity: newQuantity } : item
         );
         setCartItems(updatedCart);
@@ -60,6 +61,20 @@ function CartPage() {
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
+    }
+  };
+
+  const handleIncrease = (cart_item_id) => {
+    const item = cartItems.find((item) => item.cart_item_id === cart_item_id);
+    if (item) {
+      updateQuantity(cart_item_id, item.quantity + 1);
+    }
+  };
+
+  const handleDecrease = (cart_item_id) => {
+    const item = cartItems.find((item) => item.cart_item_id === cart_item_id);
+    if (item && item.quantity > 1) {
+      updateQuantity(cart_item_id, item.quantity - 1);
     }
   };
 
@@ -94,34 +109,19 @@ function CartPage() {
       <div className="section-container cart-container">
         <div className="cart-list">
           {cartItems.map((item) => (
-            <div key={item.cart_item_id} className="cart-item">
-              {/* Product image */}
-              <div className="cart-column">
-                {item.image_url ? (
-                  <img
-                    src={`http://localhost:5000/uploads/${item.image_url}`}
-                    alt={item.product_name}
-                    className="cart-item-image"
-                  />
-                ) : (
-                  <img src={empty} alt="No Image" className="cart-item-image" />
-                )}
-              </div>
-              <div className="cart-column">{item.product_name}</div>
-              <div className="cart-column">₱{parseFloat(item.price).toFixed(2)}</div>
-              <div className="cart-column">
-                <button onClick={() => updateQuantity(item.cart_item_id, item.quantity - 1)}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.cart_item_id, item.quantity + 1)}>+</button>
-              </div>
-              <div className="cart-column">₱{(parseFloat(item.price) * item.quantity).toFixed(2)}</div>
-            </div>
+            <CartItem
+              key={item.cart_item_id}
+              item={item}
+              onIncrease={handleIncrease}
+              onDecrease={handleDecrease}
+            />
           ))}
         </div>
       </div>
 
-      <div className="cart-summary">
-        <h4>Total: ₱{totalPrice.toFixed(2)}</h4>
+      <div className="section-container cart-summary">
+        <h3 className="cart-column-name">Total</h3>
+        <h3 className="cart-column-name">₱{totalPrice.toFixed(2)}</h3>
       </div>
 
       <div className="checkout-container">
