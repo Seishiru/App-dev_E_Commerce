@@ -4,6 +4,7 @@ import empty from "../assets/empty_image.png";
 import "../css/ProductPage.css";
 import StarRating from "../components/StarRating";
 import VariationDropbox from "../components/VariationDropdown";
+import UserReview from "../components/UserReview";
 
 const ProductPage = () => {
   const { id } = useParams(); // Get product ID from URL
@@ -117,6 +118,11 @@ const ProductPage = () => {
       <div className="section-container">
         <h2 className="section-title">Product Reviews</h2>
         <hr />
+        <div className="review-list">
+          <UserReview/>
+          <UserReview/>
+        </div>
+        <div className="see-more">See More</div>
       </div>
 
       <div className="section-container">

@@ -1,0 +1,38 @@
+.review-item{
+  margin-bottom: 25px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.375);
+}
+
+.review-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-header-left{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-profile-picture{
+  height: 32px;
+  border-radius: 100%;
+}
+
+.user-profile-name{
+  font-weight: bold;
+}
+
+.review-header-right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: gray;
+}
+
+.review-contents{
+  margin: 10px 0;
+}
+

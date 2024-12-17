@@ -88,3 +88,7 @@
     flex: 1; /* Equal width when stacked */
   }
 }
+
+.see-more{
+  text-align: center;
+}
