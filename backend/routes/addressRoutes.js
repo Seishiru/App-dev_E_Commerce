@@ -58,22 +58,22 @@ router.post('/:user_id/addresses', authenticateToken, async (req, res) => {
     return res.status(403).json({ error: 'You are not authorized to add an address' });
   }
 
-  const { receiver, address, phoneNumber, type } = req.body;
+  const { receiver, address, phone_number, type } = req.body;
 
   // Basic validation for address fields
-  if (!receiver || !address || !phoneNumber || !type) {
+  if (!receiver || !address || !phone_number || !type) {
     return res.status(400).json({ error: 'All address fields are required' });
   }
 
   try {
     const [result] = await pool.promise().query(
-      'INSERT INTO addresses (user_id, receiver, address, phoneNumber, type) VALUES (?, ?, ?, ?, ?)',
-      [user_id, receiver, address, phoneNumber, type]
+      'INSERT INTO addresses (user_id, receiver, address, phone_number, address_type) VALUES (?, ?, ?, ?, ?)',
+      [user_id, receiver, address, phone_number, type]
     );
 
     res.status(201).json({
       message: 'Address added successfully',
-      newAddress: { id: result.insertId, receiver, address, phoneNumber, type }
+      newAddress: { id: result.insertId, receiver, address, phone_number, address_type: type }
     });
   } catch (err) {
     console.error('Error adding address:', err);

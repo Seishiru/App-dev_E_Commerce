@@ -1,22 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "../css/CheckoutItem.css";
 import "../css/Checkout.css";
 import empty from "../assets/empty_image.png";
 
-function CheckoutItem() {
+function CheckoutItem({ item }) {
+  const { product_name, price, quantity, image_url } = item;
+  const totalPrice = parseFloat(price) * quantity;
+
   return (
     <div className="checkout-columns">
       <div className="checkout-product-container">
-        <img src={empty} className="checkout-product-image" />
+        <img 
+          src={image_url ? `http://localhost:5000/uploads/${image_url}` : empty} 
+          className="checkout-product-image" 
+          alt={product_name}
+        />
         <div className="checkout-product-name">
-          <h3>Product name</h3>
-          <div>variation</div>
+          <h3>{product_name}</h3>
         </div>
       </div>
-      <div>₱100.00</div>
-      <div>3</div>
-      <div>₱300.00</div>
+      <div>₱{parseFloat(price).toFixed(2)}</div>
+      <div>{quantity}</div>
+      <div>₱{totalPrice.toFixed(2)}</div>
     </div>
   );
 }

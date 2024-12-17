@@ -19,7 +19,7 @@ function UserProfile() {
   const [newAddress, setNewAddress] = useState({
     receiver: "",
     address: "",
-    phoneNumber: "",
+    phone_number: "",
     type: "Home", // Default to 'Home' address type
   });
 
@@ -115,7 +115,15 @@ function UserProfile() {
 
   const handleDeleteAddress = async (addressId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/users/${user.user_id}/addresses/${addressId}`);
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `http://localhost:5000/api/${user.user_id}/addresses/${addressId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      );
       setAddresses((prevAddresses) => prevAddresses.filter(address => address.id !== addressId));
       alert("Address deleted successfully");
     } catch (error) {
@@ -128,14 +136,14 @@ function UserProfile() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/users/${user.user_id}/addresses`, newAddress, {
+      const response = await axios.post(`http://localhost:5000/api/${user.user_id}/addresses`, newAddress, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token in the header
         }
       });
       console.log("New Address Added:", response.data); // Debugging the newly added address response
       setAddresses((prevAddresses) => [...prevAddresses, response.data.newAddress]);
-      setNewAddress({ receiver: "", address: "", phoneNumber: "", type: "Home" }); // Reset form
+      setNewAddress({ receiver: "", address: "", phone_number: "", type: "Home" }); // Reset form
       alert("Address added successfully");
     } catch (error) {
       console.error("Error adding address:", error);
@@ -218,7 +226,7 @@ function UserProfile() {
                   <span>{address.type}</span>
                 </div>
                 <div className="address-button-container">
-                  <button className="address-button">Edit</button>
+                  {/* <button className="address-button">Edit</button> */}
                   <button className="address-button" onClick={() => handleDeleteAddress(address.id)}>
                     Delete
                   </button>
@@ -258,8 +266,8 @@ function UserProfile() {
           <input
             type="text"
             name="phoneNumber"
-            value={newAddress.phoneNumber}
-            onChange={(e) => setNewAddress({ ...newAddress, phoneNumber: e.target.value })}
+            value={newAddress.phone_number}
+            onChange={(e) => setNewAddress({ ...newAddress, phone_number: e.target.value })}
             required
           />
         </div>
