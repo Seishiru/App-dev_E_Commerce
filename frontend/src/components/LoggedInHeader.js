@@ -35,13 +35,13 @@ const LoggedInHeader = ({ user, handleLogout }) => {
           {/* Search Bar and Button */}
           <div className="search-bar">
             <div>
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search for products..."
-                value={searchInput} // Controlled input
-                onChange={(e) => setSearchInput(e.target.value)} // Update state on input change
-              />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search for products or categories..." // Update placeholder text
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
             </div>
             <button
               className="search-button"

@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../db'); // Database connection
 const router = express.Router();
 
-// Search for products by category name
+// Search for products by category name or product name
 router.get('/', async (req, res) => {
   const searchQuery = req.query.query; // Get search term from query parameters
 
@@ -11,12 +11,12 @@ router.get('/', async (req, res) => {
   }
 
   try {
-    // Query the database to get products that match the category name
+    // Query the database to get products that match the category name or product name
     const [results] = await pool.promise().query(
       `
       SELECT 
         p.product_id, 
-        p.name,         -- Include product name
+        p.name AS name,
         p.description, 
         p.price, 
         p.stock_quantity, 
@@ -24,11 +24,10 @@ router.get('/', async (req, res) => {
         c.name AS category_name
       FROM products p
       INNER JOIN categories c ON p.category_id = c.category_id
-      WHERE c.name LIKE ?
+      WHERE c.name LIKE ? OR p.name LIKE ?
       `,
-      [`%${searchQuery}%`]
+      [`%${searchQuery}%`, `%${searchQuery}%`] // Match both category and product name
     );
-    
 
     if (results.length === 0) {
       return res.status(404).json({ message: "No products found" });

@@ -40,7 +40,7 @@ router.get("/top-stock", async (req, res) => {
       SELECT * 
       FROM products 
       ORDER BY stock_quantity DESC 
-      LIMIT 10
+      LIMIT 20
     `;
     
     // Using db.promise() for better handling of async queries
