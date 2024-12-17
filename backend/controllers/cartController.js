@@ -135,21 +135,26 @@ const updateCartQuantity = async (req, res) => {
     console.log(`Executing query: UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?`);
     console.log(`Query parameters: [${quantity}, ${cart_item_id}]`);
 
-    // Use db.execute and check the returned result properly
-    const [result] = await db.execute('UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?', [quantity, cart_item_id]);
+    // Use db.query instead of db.execute
+    db.query(
+      'UPDATE cart_items SET quantity = ? WHERE cart_item_id = ?',
+      [quantity, cart_item_id],
+      (err, result) => {
+        if (err) {
+          console.error('Error updating quantity:', err);
+          return res.status(500).send({ message: 'Failed to update quantity.' });
+        }
 
-    // Log the full result object
-    console.log('Query result:', result);
-
-    // Check if result is defined and contains affected rows
-    if (result && result.affectedRows > 0) {
-      console.log('Quantity updated successfully');
-      res.status(200).send({ message: 'Quantity updated successfully' });
-    } else {
-      // Log when no rows are affected
-      console.log('No rows affected. Cart item not found or quantity already the same');
-      res.status(404).send({ message: 'Cart item not found or quantity is already the same.' });
-    }
+        // Check if any rows were affected
+        if (result.affectedRows > 0) {
+          console.log('Quantity updated successfully');
+          res.status(200).send({ message: 'Quantity updated successfully' });
+        } else {
+          console.log('No rows affected. Cart item not found or quantity already the same');
+          res.status(404).send({ message: 'Cart item not found or quantity is already the same.' });
+        }
+      }
+    );
   } catch (error) {
     // Log the error
     console.error('Error updating quantity:', error);

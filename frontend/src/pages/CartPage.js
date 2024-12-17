@@ -2,32 +2,49 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/CartPage.css";
 import CartItem from "../components/CartItem";
+import {jwtDecode} from 'jwt-decode';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0); // To track total cart price
   const [cartMessage, setCartMessage] = useState(""); // For any feedback messages
   const [checkedItems, setCheckedItems] = useState(new Set());
+  const [user, setUser] = useState(null);
 
   // Fetch cart items from the server when the component loads
   useEffect(() => {
     const fetchCart = async () => {
+      // Get and decode the token
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setCartMessage("Please log in to view your cart.");
+        return;
+      }
+
       try {
-        const response = await fetch("http://localhost:5000/api/cart/1");
+        // Decode the token to get user information
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.id; // Access the id from decoded token
+console.log(userId)
+        const response = await fetch(`http://localhost:5000/api/cart/${userId}`);
         if (!response.ok) {
           throw new Error("Error fetching cart items");
         }
         const data = await response.json();
         setCartItems(data.cartItems);
-        calculateTotalPrice(data.cartItems, checkedItems); // Ensure both arguments are passed here
+        calculateTotalPrice(data.cartItems, checkedItems);
       } catch (error) {
         console.error("Error fetching cart:", error);
-        setCartMessage("Failed to load cart.");
+        if (error.name === "InvalidTokenError") {
+          setCartMessage("Invalid session. Please log in again.");
+        } else {
+          setCartMessage("Failed to load cart.");
+        }
       }
     };
-  
+
     fetchCart();
-  }, []);
+  }, []); // Empty dependency array for initial load
 
   // Calculate the total price of the items in the cart
   const calculateTotalPrice = (items, checkedItems) => {
@@ -68,7 +85,7 @@ function CartPage() {
           item.cart_item_id === cart_item_id ? { ...item, quantity: newQuantity } : item
         );
         setCartItems(updatedCart);
-        calculateTotalPrice(updatedCart); // Recalculate total price after update
+        calculateTotalPrice(updatedCart, checkedItems); // Pass checkedItems here
       } else {
         console.error("Failed to update quantity");
       }
@@ -85,7 +102,7 @@ function CartPage() {
         item.cart_item_id === cart_item_id ? { ...item, quantity: item.quantity + 1 } : item
       );
       setCartItems(updatedCart);
-      calculateTotalPrice(updatedCart); // Recalculate total price immediately
+      calculateTotalPrice(updatedCart, checkedItems); // Pass checkedItems here
   
       // Update the quantity in the database
       updateQuantity(cart_item_id, item.quantity + 1);
@@ -101,7 +118,7 @@ function CartPage() {
         item.cart_item_id === cart_item_id ? { ...item, quantity: item.quantity - 1 } : item
       );
       setCartItems(updatedCart);
-      calculateTotalPrice(updatedCart); // Recalculate total price immediately
+      calculateTotalPrice(updatedCart, checkedItems); // Pass checkedItems here
   
       // Update the quantity in the database
       updateQuantity(cart_item_id, item.quantity - 1);
@@ -117,7 +134,7 @@ function CartPage() {
       if (response.ok) {
         const updatedCart = cartItems.filter((item) => item.cart_item_id !== cart_item_id);
         setCartItems(updatedCart);
-        calculateTotalPrice(updatedCart); // Recalculate total price
+        calculateTotalPrice(updatedCart, checkedItems); // Pass checkedItems here
       } else {
         console.error("Failed to delete cart item");
       }

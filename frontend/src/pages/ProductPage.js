@@ -5,6 +5,7 @@ import "../css/ProductPage.css";
 import StarRating from "../components/StarRating";
 import VariationDropbox from "../components/VariationDropdown";
 import UserReview from "../components/UserReview";
+import { jwtDecode } from 'jwt-decode';
 
 const ProductPage = () => {
   const { id } = useParams(); // Get product ID from URL
@@ -37,17 +38,28 @@ const ProductPage = () => {
   }, [id]);
 
   const addToCart = async () => {
-    console.log("Adding product to cart, product ID:", id); // Debug: Add to cart started
+    // Get and decode the token to get current user's ID
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setCartMessage("Please log in to add items to cart");
+      return;
+    }
+
     try {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id; // Get the current user's ID from token
+
+      console.log("Adding to cart with user ID:", userId); // Debug log
+
       const response = await fetch("http://localhost:5000/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: 1, // Replace with logged-in user's ID
+          user_id: userId, // Use the decoded user ID instead of hardcoded value
           product_id: id,
-          quantity: 1, // Default quantity
+          quantity: 1,
         }),
       });
 
@@ -56,7 +68,7 @@ const ProductPage = () => {
       }
 
       setCartMessage("Product added to cart!");
-      console.log("Product successfully added to cart."); // Debug: Product added to cart
+      console.log("Product successfully added to cart.");
     } catch (error) {
       console.error("Error adding product to cart:", error);
       setCartMessage("Failed to add product to cart");
