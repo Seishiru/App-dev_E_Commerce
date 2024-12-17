@@ -64,12 +64,6 @@ Follow these steps to set up and run the project on your local machine.
 - Seamless backend integration for managing orders and inventory.  
 - SQL-based database for reliable data storage.  
 
-### Directory Structure  
-
-- **frontend/**: Contains the React.js-based frontend code.  
-- **backend/**: Contains the Node.js/Express.js-based backend code.  
-- **resources/**: Includes the SQL file for database setup.  
-
 ### Authors  
 
 - Cecil Quibranza
