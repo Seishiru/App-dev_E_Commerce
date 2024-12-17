@@ -9,12 +9,18 @@ const ProductPage = () => {
   const { id } = useParams(); // Get product ID from URL
   const [product, setProduct] = useState(null);
   const [cartMessage, setCartMessage] = useState(""); // For user feedback
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleDescription = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
       console.log("Fetching product with ID:", id); // Debug: Product fetch started
       try {
-        const response = await fetch(`http://localhost:5000/api/products/${id}`); // Fetch product details by ID
+        const response = await fetch(
+          `http://localhost:5000/api/products/${id}`
+        ); // Fetch product details by ID
         if (!response.ok) {
           throw new Error("Product not found");
         }
@@ -66,7 +72,11 @@ const ProductPage = () => {
         <div className="product-container">
           <div className="product-container-left">
             <img
-              src={product.image_url ? `http://localhost:5000/uploads/${product.image_url}` : empty}
+              src={
+                product.image_url
+                  ? `http://localhost:5000/uploads/${product.image_url}`
+                  : empty
+              }
               alt={product.name}
               className="product-image"
             />
@@ -81,13 +91,23 @@ const ProductPage = () => {
               </div>
             </div>
             <VariationDropbox variations={["Small", "Medium", "Large"]} />
-            <div className="product-description">
-              <div className="product-description-label">Product Description:</div>
+
+            <div className="product-description-label">
+              Product Description:
+            </div>
+            <div
+              className={`product-description ${isExpanded ? "expanded" : ""}`}
+            >
               <div>{product.description}</div>
+              <div className="see-more" onClick={toggleDescription}>
+                {isExpanded ? "See less" : "See more"}
+              </div>
             </div>
             <div className="product-buttons">
               <button className="buy-button">Buy Now</button>
-              <button className="add-button" onClick={addToCart}>Add to Cart</button>
+              <button className="add-button" onClick={addToCart}>
+                Add to Cart
+              </button>
             </div>
             {cartMessage && <div className="cart-message">{cartMessage}</div>}
           </div>
