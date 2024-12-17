@@ -57,22 +57,22 @@ const HomePage = () => {
     const fetchTopProducts = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/products/top-stock");
-        console.log("Response Status:", response.status); // Confirm status
-        
-        // If status is not OK, handle the error
+        console.log("Response Status:", response.status); // Debugging status
+    
         if (!response.ok) {
+          console.error("Failed to fetch top products, status:", response.status);
           throw new Error("Failed to fetch top products");
         }
-        
-        const data = await response.json();  // Parse response as JSON
-        console.log("Parsed Data:", data);
-  
-        setTopProducts(data);  // Update state with the fetched products
+    
+        const data = await response.json(); // Parse response
+        console.log("Parsed Data:", data); // Debugging data
+        setTopProducts(data); // Update state
       } catch (error) {
         console.error("Error fetching top products:", error);
-        setTopProducts([]);  // If error, set empty list
+        setTopProducts([]); // Set empty if error occurs
       }
     };
+    
   
     fetchTopProducts();
   }, []);
