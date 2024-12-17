@@ -78,15 +78,6 @@ function CartPage() {
     }
   };
 
-  if (!cartItems.length) {
-    return (
-      <div>
-        <h2>Your cart is empty</h2>
-        <img src={empty} alt="Empty cart" />
-      </div>
-    );
-  }
-
   return (
     <div>
       <div className="section-container cart-columns">
@@ -107,7 +98,7 @@ function CartPage() {
       </div>
 
       <div className="section-container cart-container">
-        <div className="cart-list">
+        {cartItems.length? <div className="cart-list">
           {cartItems.map((item) => (
             <CartItem
               key={item.cart_item_id}
@@ -116,7 +107,7 @@ function CartPage() {
               onDecrease={handleDecrease}
             />
           ))}
-        </div>
+        </div>: <div className="empty-cart-message">Your cart is empty</div>}
       </div>
 
       <div className="section-container cart-summary">
