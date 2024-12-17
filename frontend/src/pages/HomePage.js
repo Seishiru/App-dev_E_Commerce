@@ -29,6 +29,8 @@ const HomePage = () => {
   // State to track the current image index
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const [topProducts, setTopProducts] = useState([]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % saleImages.length);
@@ -50,6 +52,32 @@ const HomePage = () => {
     }
   }, [currentImageIndex]);
 
+  
+  useEffect(() => {
+    const fetchTopProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products/top-stock");
+        console.log("Response Status:", response.status); // Confirm status
+        
+        // If status is not OK, handle the error
+        if (!response.ok) {
+          throw new Error("Failed to fetch top products");
+        }
+        
+        const data = await response.json();  // Parse response as JSON
+        console.log("Parsed Data:", data);
+  
+        setTopProducts(data);  // Update state with the fetched products
+      } catch (error) {
+        console.error("Error fetching top products:", error);
+        setTopProducts([]);  // If error, set empty list
+      }
+    };
+  
+    fetchTopProducts();
+  }, []);
+  
+  
   return (
     <div>
       {/* Main Image Section */}
@@ -72,7 +100,7 @@ const HomePage = () => {
       <div className="section-container">
         <h2 className="section-title">Suggested products for you</h2>
         <hr />
-        <ProductGrid />
+        <ProductGrid products={topProducts}/>
       </div>
     </div>
   );
