@@ -26,7 +26,6 @@ function ProductItem({ product }) {
         </div>
         <div className="product-card-summary">
           <div className="product-card-name">{name}</div>
-          <div className="product-card-description">{description}</div>
           <div className="product-card-details">
             <div className="product-card-price">₱{price}</div>
             <div>{stock_quantity} in stock</div>
