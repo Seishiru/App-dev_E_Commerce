@@ -3,13 +3,13 @@ import "../css/CartItem.css";
 import "../css/CartPage.css";
 import empty from "../assets/empty_image.png";
 
-function CartItem({ item, onIncrease, onDecrease, onDelete }) {
+function CartItem({ item, onIncrease, onDecrease, onDelete, onCheckboxChange }) {
   const { product_name, price, quantity, image_url, cart_item_id } = item;
 
   return (
     <div className="cart-columns cart-item">
       <div className="icon-container">
-        <input type="checkbox" className="custom-checkbox" />
+        <input type="checkbox" className="custom-checkbox" onChange={() => onCheckboxChange(cart_item_id)}/>
       </div>
       <div className="cart-product-container">
         <img

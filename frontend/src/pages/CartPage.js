@@ -7,35 +7,49 @@ function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0); // To track total cart price
   const [cartMessage, setCartMessage] = useState(""); // For any feedback messages
+  const [checkedItems, setCheckedItems] = useState(new Set());
 
   // Fetch cart items from the server when the component loads
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cart/1"); // Assuming user ID is 1 for this example
+        const response = await fetch("http://localhost:5000/api/cart/1");
         if (!response.ok) {
           throw new Error("Error fetching cart items");
         }
         const data = await response.json();
-        setCartItems(data.cartItems); // Assuming response has a 'cartItems' array
-        calculateTotalPrice(data.cartItems); // Calculate total price
+        setCartItems(data.cartItems);
+        calculateTotalPrice(data.cartItems, checkedItems); // Ensure both arguments are passed here
       } catch (error) {
         console.error("Error fetching cart:", error);
         setCartMessage("Failed to load cart.");
       }
     };
-
+  
     fetchCart();
   }, []);
 
   // Calculate the total price of the items in the cart
-  const calculateTotalPrice = (items) => {
+  const calculateTotalPrice = (items, checkedItems) => {
     const total = items.reduce((sum, item) => {
-      // Ensure price is a number
-      const price = parseFloat(item.price);
-      return sum + price * item.quantity;
+      if (checkedItems.has(item.cart_item_id)) {
+        const price = parseFloat(item.price);
+        sum += price * item.quantity;
+      }
+      return sum;
     }, 0);
     setTotalPrice(total);
+  };
+
+  const handleCheckboxChange = (cart_item_id) => {
+    const updatedCheckedItems = new Set(checkedItems);
+    if (updatedCheckedItems.has(cart_item_id)) {
+      updatedCheckedItems.delete(cart_item_id);
+    } else {
+      updatedCheckedItems.add(cart_item_id);
+    }
+    setCheckedItems(updatedCheckedItems);
+    calculateTotalPrice(cartItems, updatedCheckedItems); // Recalculate with new checked state
   };
 
   // Update quantity of a cart item
@@ -140,6 +154,7 @@ function CartPage() {
               onIncrease={handleIncrease}
               onDecrease={handleDecrease}
               onDelete={handleDelete}
+              onCheckboxChange={handleCheckboxChange}
             />
           ))}
         </div>: <div className="empty-cart-message">Your cart is empty</div>}
