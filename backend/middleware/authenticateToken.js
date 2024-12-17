@@ -13,7 +13,7 @@ const authenticateToken = (req, res, next) => {
   const decoded = jwtUtils.verifyToken(token);
 
   if (!decoded) {
-    return res.status(403).json({ error: 'Failed to authenticate token' });
+    return res.status(400).json({ error: 'Failed to authenticate token' });
   }
 
   // Attach the decoded payload to the request object

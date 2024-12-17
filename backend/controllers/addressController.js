@@ -1,23 +1,9 @@
-const mysql = require('mysql2');
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD || '',
-  database: 'app_e_commerce_db',
-});
+const express = require('express');
+const router = express.Router();
+const { authenticateToken } = require('../middleware/authenticateToken');
+const { getAddressesByUserId } = require('../db'); // Import the function from db.js
 
-// Controller function to get addresses by user_id
-const getAddressesByUserId = (req, res) => {
-  const userId = req.params.user_id;
+// Route to fetch addresses for a specific user
+router.get('/:user_id/addresses', authenticateToken, getAddressesByUserId);
 
-  const query = 'SELECT * FROM addresses WHERE user_id = ?';
-  connection.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('Error fetching addresses:', err);
-      return res.status(500).json({ message: 'Error fetching addresses' });
-    }
-    return res.json(results);
-  });
-};
-
-module.exports = { getAddressesByUserId };
+module.exports = router;

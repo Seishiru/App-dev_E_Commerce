@@ -25,7 +25,7 @@ function UserProfile() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token being sent:", token);
+    console.log("Token being sent:", token); // Debugging the token in localStorage
 
     if (token) {
       try {
@@ -61,14 +61,18 @@ function UserProfile() {
         throw new Error("User ID is not available");
       }
 
-      const response = await axios.get(`http://localhost:5000/api/users/${user_id}/addresses`, {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  }
-});
+      const token = localStorage.getItem("token");
+      console.log("Token being sent with request:", token); // Debugging token being used in request
       
+      // const response = await axios.get(`http://localhost:5000/api/users/${user_id}/addresses`, {
+        const response = await axios.get(`http://localhost:5000/api/${user_id}/addresses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+
+      console.log(response); // Debugging the fetched addresses
       setAddresses(response.data || []); // Set the fetched addresses
-      console.log("Fetched Addresses:", response.data); // Debugging the fetched addresses
     } catch (error) {
       console.error("Error fetching addresses:", error);
       alert("Failed to fetch addresses");
@@ -129,6 +133,7 @@ function UserProfile() {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token in the header
         }
       });
+      console.log("New Address Added:", response.data); // Debugging the newly added address response
       setAddresses((prevAddresses) => [...prevAddresses, response.data.newAddress]);
       setNewAddress({ receiver: "", address: "", phoneNumber: "", type: "Home" }); // Reset form
       alert("Address added successfully");
