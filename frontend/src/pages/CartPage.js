@@ -51,11 +51,14 @@ function CartPage() {
       });
 
       if (response.ok) {
-        const updatedCart = cartItems.map((item) =>
-          item.cart_item_id === cart_item_id ? { ...item, quantity: newQuantity } : item
-        );
-        setCartItems(updatedCart);
-        calculateTotalPrice(updatedCart); // Recalculate total price after update
+        // Use functional state update to ensure we are working with the latest cartItems
+        setCartItems((prevItems) => {
+          const updatedCart = prevItems.map((item) =>
+            item.cart_item_id === cart_item_id ? { ...item, quantity: newQuantity } : item
+          );
+          calculateTotalPrice(updatedCart); // Recalculate total price after update
+          return updatedCart;
+        });
       } else {
         console.error("Failed to update quantity");
       }
@@ -65,17 +68,27 @@ function CartPage() {
   };
 
   const handleIncrease = (cart_item_id) => {
-    const item = cartItems.find((item) => item.cart_item_id === cart_item_id);
-    if (item) {
-      updateQuantity(cart_item_id, item.quantity + 1);
-    }
+    setCartItems((prevItems) => {
+      const updatedCart = prevItems.map((item) =>
+        item.cart_item_id === cart_item_id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      calculateTotalPrice(updatedCart); // Recalculate total price after update
+      return updatedCart;
+    });
   };
 
   const handleDecrease = (cart_item_id) => {
-    const item = cartItems.find((item) => item.cart_item_id === cart_item_id);
-    if (item && item.quantity > 1) {
-      updateQuantity(cart_item_id, item.quantity - 1);
-    }
+    setCartItems((prevItems) => {
+      const updatedCart = prevItems.map((item) =>
+        item.cart_item_id === cart_item_id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+      calculateTotalPrice(updatedCart); // Recalculate total price after update
+      return updatedCart;
+    });
   };
 
   return (
