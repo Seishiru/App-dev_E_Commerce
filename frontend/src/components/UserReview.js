@@ -12,7 +12,7 @@ function UserReview() {
         </div>
         <div className='review-header-right'>
           12/21/20
-          <i class="fa-solid fa-ellipsis-vertical"></i>
+          <i className="fa-solid fa-ellipsis-vertical"></i>
         </div>
       </div>
       <div className='review-contents'>

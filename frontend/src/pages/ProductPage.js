@@ -5,11 +5,14 @@ import "../css/ProductPage.css";
 import StarRating from "../components/StarRating";
 import VariationDropbox from "../components/VariationDropdown";
 import UserReview from "../components/UserReview";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
+import ProductGrid from "../components/ProductGrid";
 
 const ProductPage = () => {
   const { id } = useParams(); // Get product ID from URL
   const [product, setProduct] = useState(null);
+  const [products, serProducts] = useState([]);
+  const [topProducts, setTopProducts] = useState([]);
   const [cartMessage, setCartMessage] = useState(""); // For user feedback
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleDescription = () => {
@@ -37,9 +40,37 @@ const ProductPage = () => {
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    const fetchTopProducts = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/products/top-stock"
+        );
+        console.log("Response Status:", response.status); // Debugging status
+
+        if (!response.ok) {
+          console.error(
+            "Failed to fetch top products, status:",
+            response.status
+          );
+          throw new Error("Failed to fetch top products");
+        }
+
+        const data = await response.json(); // Parse response
+        console.log("Parsed Data:", data); // Debugging data
+        setTopProducts(data); // Update state
+      } catch (error) {
+        console.error("Error fetching top products:", error);
+        setTopProducts([]); // Set empty if error occurs
+      }
+    };
+
+    fetchTopProducts();
+  }, []);
+
   const addToCart = async () => {
     // Get and decode the token to get current user's ID
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       setCartMessage("Please log in to add items to cart");
       return;
@@ -131,8 +162,8 @@ const ProductPage = () => {
         <h2 className="section-title">Product Reviews</h2>
         <hr />
         <div className="review-list">
-          <UserReview/>
-          <UserReview/>
+          <UserReview />
+          <UserReview />
         </div>
         <div className="see-more">See More</div>
       </div>
@@ -140,7 +171,7 @@ const ProductPage = () => {
       <div className="section-container">
         <h2 className="section-title">Recommended Products</h2>
         <hr />
-        {/* ProductGrid component can be used here if you want to show other products */}
+        <ProductGrid products={topProducts}/>
       </div>
     </div>
   );
