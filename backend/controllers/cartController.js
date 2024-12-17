@@ -157,8 +157,23 @@ const updateCartQuantity = async (req, res) => {
   }
 };
 
+const deleteCartItem = (req, res) => {
+  const { cart_item_id } = req.params;
 
+  db.query("DELETE FROM cart_items WHERE cart_item_id = ?", [cart_item_id], (err, result) => {
+    if (err) {
+      console.error("Error deleting cart item:", err);
+      return res.status(500).json({ message: "Error deleting cart item" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+
+    res.status(200).json({ message: "Cart item deleted successfully" });
+  });
+};
 
 
 // Export controller functions
-module.exports = { addToCart, getCartItems, updateCartQuantity };
+module.exports = { addToCart, getCartItems, updateCartQuantity, deleteCartItem };

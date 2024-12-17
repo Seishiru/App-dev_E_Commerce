@@ -3,8 +3,8 @@ import "../css/CartItem.css";
 import "../css/CartPage.css";
 import empty from "../assets/empty_image.png";
 
-function CartItem({ item, onIncrease, onDecrease }) {
-  const { product_name, price, quantity, image_url } = item;
+function CartItem({ item, onIncrease, onDecrease, onDelete }) {
+  const { product_name, price, quantity, image_url, cart_item_id } = item;
 
   return (
     <div className="cart-columns cart-item">
@@ -45,7 +45,7 @@ function CartItem({ item, onIncrease, onDecrease }) {
       </div>
       <div>₱{(quantity * parseFloat(price)).toFixed(2)}</div>
       <div className="icon-container">
-        <i className="fa-solid fa-trash delete-icon"></i>
+        <i className="fa-solid fa-trash delete-icon" onClick={() => onDelete(cart_item_id)}></i>
       </div>
     </div>
   );

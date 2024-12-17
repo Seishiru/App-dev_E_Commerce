@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/CartPage.css";
-import empty from "../assets/empty_image.png"; // Default empty cart image
 import CartItem from "../components/CartItem";
 
 function CartPage() {
@@ -95,6 +94,23 @@ function CartPage() {
     }
   };
   
+  const handleDelete = async (cart_item_id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/cart/delete/${cart_item_id}`, {
+        method: "DELETE",
+      });
+  
+      if (response.ok) {
+        const updatedCart = cartItems.filter((item) => item.cart_item_id !== cart_item_id);
+        setCartItems(updatedCart);
+        calculateTotalPrice(updatedCart); // Recalculate total price
+      } else {
+        console.error("Failed to delete cart item");
+      }
+    } catch (error) {
+      console.error("Error deleting cart item:", error);
+    }
+  };
 
   return (
     <div>
@@ -123,6 +139,7 @@ function CartPage() {
               item={item}
               onIncrease={handleIncrease}
               onDecrease={handleDecrease}
+              onDelete={handleDelete}
             />
           ))}
         </div>: <div className="empty-cart-message">Your cart is empty</div>}
